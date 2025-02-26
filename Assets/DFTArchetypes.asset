@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b64ade7c1f73a3c4aa24d1753243cf95, type: 3}
+  m_Name: DFTArchetypes
+  m_EditorClassIdentifier: 
+  archetypeColorPairs:
+  - archetypeName: Artifact Value
+    color1: W
+    color2: U
+  - archetypeName: Artifact Bleeder
+    color1: U
+    color2: B
+  - archetypeName: Max Speed Aggro
+    color1: B
+    color2: R
+  - archetypeName: Exhaust Midrange
+    color1: R
+    color2: G
+  - archetypeName: Vehicles and Mounts Midrange
+    color1: W
+    color2: G
+  - archetypeName: Max Speed Attrition
+    color1: W
+    color2: B
+  - archetypeName: Discard Aggro
+    color1: U
+    color2: R
+  - archetypeName: Graveyard
+    color1: B
+    color2: G
+  - archetypeName: Vehicles and Mounts Aggro
+    color1: W
+    color2: R
+  - archetypeName: Exhaust Ramp
+    color1: U
+    color2: G
