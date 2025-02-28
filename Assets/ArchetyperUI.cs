@@ -1,8 +1,10 @@
     using System.Collections;
     using System.Collections.Generic;
-    using System.Reflection.Emit;
+using System.IO;
+using System.Reflection.Emit;
     using JetBrains.Annotations;
-    using UnityEngine;
+using TMPro;
+using UnityEngine;
     using UnityEngine.Networking;
     using UnityEngine.UI;
 
@@ -22,19 +24,38 @@
         public GameObject cardDisplayPanel, archetypePanel;
         public Button displayButton;
         public Toggle togglePrefab;
+        public List<Toggle> togglesList;
         public ArchetypeList archetypeListScript;
+        public TextMeshProUGUI archetypedCardsCounter;
+        public TextAsset cardListSourceFile;
+        private int currentCardIndex = -1;
+        private List<string> userArchetypes = new List<string>();
 
         void Start()
         {
-            loadedCards = deckCreator.LoadAllCards();
-            //Debug.Log("loadedCards[0]: " + loadedCards[0].cardName);
-            //Debug.Log("loadedCards[0] normal image uri: " + loadedCards[0].image_Uris.normal);
+            loadedCards = deckCreator.LoadAllCards().cards;
+            Debug.Log("Loaded cards: " + loadedCards);
         }
 
         public void OnDisplayButtonClick()
         {
+            //Display completed cards counter
+            int completedCards = 0;
+            foreach (Card card in loadedCards)
+            {
+                if(card.archetypes.Count > 0)
+                {
+                    completedCards++;
+                }
+            }
+            
+            archetypedCardsCounter.text = completedCards.ToString() + "/" + loadedCards.Count; //ex (0/240)
+
+            //Load random card from loadedCards list
             int randomIndex = Random.Range(0, loadedCards.Count);
+            Debug.Log("loadedCards.Count: " + loadedCards.Count);
             Card randomCard = loadedCards[randomIndex];
+            currentCardIndex = randomIndex;
 
             if(archetypeListScript != null && archetypeListScript.archetypeColorPairs != null)
             {
@@ -44,11 +65,46 @@
             {
                 Debug.LogError("archetypeListScript or archetypeColorPairs is null!");
             }
+            if(randomCard.archetypes != null)
+            {
+                Debug.Log("Archetypes: " + randomCard.archetypes.Count + " " +  randomCard.archetypes);
+                Debug.Log("Card list contains: " + loadedCards.Count);
+            }
+            else
+            {
+                Debug.Log("Archetypes list is null!");
+            }
+
             DisplayArchetypes(randomCard, archetypeListScript.archetypeColorPairs);
             
             StartCoroutine(DisplayCard(randomCard.image_Uris.normal));
         }
 
+        public void OnHitchButtonClicked()
+        {
+            Card selectedCard = loadedCards[currentCardIndex];
+            Debug.Log("The card at index " + currentCardIndex + " is " + selectedCard.cardName);
+            selectedCard.archetypes = userArchetypes;
+            Debug.Log(selectedCard + " now has archetype(s): " + selectedCard.archetypes[0] + " and " + selectedCard.archetypes[1]);
+        }
+
+        public void OnArchetypeToggleClicked(Toggle toggle)
+        {
+            bool toggleOn = toggle.GetComponent<Toggle>().isOn;
+            Text labelText = toggle.GetComponentInChildren<Text>();
+
+            if(toggleOn)
+            {
+                userArchetypes.Add(labelText.ToString());
+                Debug.Log(labelText.text + " added!");
+                Debug.Log("userArchetypes contains: " + userArchetypes.Count);
+                return;
+            }
+            
+            userArchetypes.Remove(toggle.GetComponentInChildren<Text>().ToString());
+            Debug.Log(labelText.text + " removed!");
+            Debug.Log("userArchetypes contains: " + userArchetypes.Count);
+        }
         public void DisplayArchetypes(Card card, List<ArchetypeList.ArchetypeColorPair> archetypeColorPairs)
         {
             //Kill the toggles already there, kill them dead
@@ -61,12 +117,17 @@
             {
                 //Debug.Log("pair.color1: " + pair.color1 + " pair.color2 " + pair.color2);
                 
-                if(card.colors.Contains(pair.color1) || card.colors.Contains(pair.color2))
+                if(card.colors.Contains(pair.color1) || card.colors.Contains(pair.color2) || card.colors.Contains("C"))
                 {
                     Debug.Log("Pair name: " + pair.archetypeName);
-                    Toggle newToggle = Instantiate(togglePrefab, archetypePanel.transform);
+                    GameObject newTogglePrefab = Instantiate(togglePrefab.gameObject, archetypePanel.transform);
+                    ArchetypeToggleHandler archetypeToggleHandler = newTogglePrefab.GetComponent<ArchetypeToggleHandler>();
+                    Toggle newToggle = newTogglePrefab.GetComponent<Toggle>();  
                     Text toggleText = newToggle.GetComponentInChildren<Text>();
+                    Debug.Log("Toggle text: " + toggleText);
                     toggleText.text = pair.archetypeName;
+
+                    archetypeToggleHandler.SetArchetyperUI(this);
                 }
             }
         }

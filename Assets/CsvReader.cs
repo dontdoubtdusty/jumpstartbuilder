@@ -15,7 +15,7 @@ public class CSVCardReader : MonoBehaviour
         if (csvFile != null)
         {
             ParseCSV(csvFile.text);
-            PrintArchetypeCardLists(); // Optional: Print the results to the console
+            //PrintArchetypeCardLists(); // Optional: Print the results to the console
             WriteArchetypeCardListsToFile();
         }
         else
@@ -48,7 +48,7 @@ public class CSVCardReader : MonoBehaviour
 
         foreach (string line in processedLines)
         {
-            Debug.Log("line: " + line);
+            //Debug.Log("line: " + line);
             if (string.IsNullOrEmpty(line)) continue; // Skip empty lines
 
             string cleanedLine = line.Trim(); // Remove leading/trailing whitespace

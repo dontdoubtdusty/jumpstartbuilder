@@ -12,6 +12,7 @@ using System.Resources;
 public class CardCreator : MonoBehaviour
 {
     public List<Card> allCards = new List<Card>(); // List to store all cards
+    string filePath = Path.Combine(Application.dataPath, "CardData.json");
 
     public void SearchScryfall(string searchQuery)
     {   
@@ -38,7 +39,8 @@ public class CardCreator : MonoBehaviour
                         Card newCard = CreateCardFromScryfall(scryfallCard);
                         if (newCard != null)
                         {
-                            WriteCardToFile(newCard);
+                            allCards.Add(newCard);
+                            //WriteCardToFile(newCard);
                         }
 
                     }
@@ -61,6 +63,8 @@ public class CardCreator : MonoBehaviour
                 searchQuery = null; //Close the loop
             }
         }
+
+                    WriteAllCardsToFile();
     }
     public Card CreateCardFromScryfall(ScryfallCard scryfallCard)
     {
@@ -132,75 +136,19 @@ public class CardCreator : MonoBehaviour
         newCard.image_Uris = new Image_Uris();
         newCard.image_Uris = scryfallCard.image_Uris;
 
-        allCards.Add(newCard);
         return newCard;
     }
-
-    public void WriteCardToFile(Card card)
+    
+    public void WriteAllCardsToFile()
     {
-        string filePath = Path.Combine(Application.dataPath, "CardData.json");
-        string cardData = JsonUtility.ToJson(card);
-
-        try
-        {
-            if (File.Exists(filePath))
-            {
-                string fileContent = File.ReadAllText(filePath);
-
-                if (fileContent.StartsWith("[")) // Check if it's a JSON array
-                {
-                    // Existing JSON array: Append new card
-                    if (fileContent.Length > 2) // Check if the array already has elements
-                    {
-                        // Remove the closing bracket, add a comma, new card, and the closing bracket
-                        File.WriteAllText(filePath, fileContent.Substring(0, fileContent.Length - 1) + "," + cardData + "]");
-                    }
-                    else
-                    {
-                        // Array is empty: Add the card and close the array
-                        File.WriteAllText(filePath, "[" + cardData + "]");
-                    }
-                }
-                else
-                {
-                    // Not a JSON array: Create a new array and add the card
-                    File.WriteAllText(filePath, "[" + cardData + "]");
-                }
-            }
-            else
-            {
-                // File doesn't exist: Create a new array and add the card
-                File.WriteAllText(filePath, "[" + cardData + "]");
-            }
-
-            Debug.Log("Saved to " + filePath);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Error writing to file: " + e.Message);
-        }
+        ListOfCards listOfCards = new ListOfCards();
+        listOfCards.cards = allCards;
+        string json = JsonUtility.ToJson(listOfCards, true);
+        File.WriteAllText(filePath, json);
     }
     
-    public void CloseJSONFile()
+    public class ListOfCards
     {
-        string filePath = Path.Combine(Application.dataPath, "CardData.json");
-
-        try
-        {
-            if(File.Exists(filePath))
-            {
-                //Remove the trailing comma and add the closing bracket.
-                string fileContent = File.ReadAllText(filePath);
-                if(fileContent.EndsWith(","))
-                {
-                    fileContent = fileContent.TrimEnd(',');
-                }
-                File.WriteAllText(filePath, fileContent + "]");
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Error closing file: " + e.Message);
-        }
+        public List<Card> cards;
     }
 }

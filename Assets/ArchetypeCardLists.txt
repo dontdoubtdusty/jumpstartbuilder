@@ -1,0 +1,288 @@
+Archetype: Artifact Value
+- Broadcast Rambler
+- Guidelight Synergist
+- Interface Ace
+- Nesting Bot
+- Perilous Snare
+- Salvation Engine
+- Skyseer's Chariot
+- Spotcycle Scouter
+- Sundial, Dawn Tyrant
+- Tune Up
+- Voyager Glidecar
+- Voyager Quickwelder
+- Lifecraft Engine
+- Marketback Walker
+- Pit Automaton
+- Rover Blades
+- Aether Syphon
+- Diversion Unit
+- Gearseeker Serpent
+- Guidelight Optimizer
+- Hulldrifter
+- Memory Guardian
+- Midnight Mangler
+- Mu Yanling, Wind Rider
+- Nimble Thopterist
+- Possession Engine
+- Spikeshell Harrier
+- Thopter Fabricator
+- Slick Imitator
+- Transit Mage
+- Repurposing Bay
+Archetype: Max Speed Attrition
+- Collision Course
+- Detention Chariot
+- Gallant Strike
+- Leonin Surveyor
+- Lightshield Parry
+- Lightwheel Enhancements
+- Lotusguard Disciple
+- Nesting Bot
+- Perilous Snare
+- Pride of the Road
+- Swiftwing Assailant
+- Skyseer's Chariot
+- Spectacular Pileup
+- Starting Column
+- Racer's Scoreboard
+- Ancient Vendetta
+- Engine Rat
+- Gonti, Night Minister
+- Grim Bauble
+- Hellish Sideswipe
+- Intimidation Tactics
+- Kalakscion, Hunger Tyrant
+- Locust Spray
+- Maximum Overdrive
+- Momentum Breaker
+- Quag Feast
+- Risen Necroregent
+- Risky Shortcut
+- Shefet Archfiend
+- Streaking Oilgorger
+- The Last Ride
+- The Speed Demon
+Archetype: Vehicles and Mounts Aggro
+- Alacrian Armory
+- Basri, Tomorrow's Champion
+- Bulwark Ox
+- Canyon Vaulter
+- Cloudspire Captain
+- Collision Course
+- Interface Ace
+- Lotusguard Disciple
+- Roadside Assistance
+- Skyseer's Chariot
+- Spotcycle Scouter
+- Tune Up
+- Voyager Glidecar
+- Voyager Quickwelder
+- Rover Blades
+- Lifecraft Engine
+- Guidelight Matrix
+- Chandra, Spark Hunter
+- Boommobile
+- Gastal Thrillroller
+- Reckless Velocitaur
+- Road Rage
+- Tyrox, Saurid Tyrant
+- Burner Rocket
+- Dynamite Diver
+- Gilded Ghoda
+- Pedal to the Metal
+- Alacrian Jaguar
+- Autarch Mammoth
+- Bestow Greatness
+- Defend the Rider
+- District Mascot
+- Earthrumbler
+- Fang-Druid Summoner
+- Fang Guardian
+- Jibbirik Omnivore
+- Oviya, Automech Artisan
+- Silken Strength
+- Thunderous Velocipede
+- Veloheart Bike
+- Venomsac Lagac
+Archetype: Vehicles and Mounts Midrange
+- Air Response Unit
+- Alacrian Armory
+- Brightfield Glider
+- Brightfield Mustang
+- Broadcast Rambler
+- Bulwark Ox
+- Canyon Vaulter
+- Cloudspire Captain
+- Collision Course
+- Daring Mechanic
+- Detention Chariot
+- Gallant Strike
+- Gloryheath Lynx
+- Guardian Sunmare
+- Lightshield Parry
+- Roadside Assistance
+- Salvation Engine
+- Tune Up
+- Unswerving Sloth
+- Valor's Flagship
+- Guidelight Matrix
+- Rover Blades
+- Marketback Walker
+Archetype: Artifact Bleeder
+- Aether Syphon
+- Guidelight Optimizer
+- Hulldrifter
+- Memory Guardian
+- Mu Yanling, Wind Rider
+- Possession Engine
+- Repurposing Bay
+- Riverchurn Monument
+- Spikeshell Harrier
+- Thopter Fabricator
+- Transit Mage
+- Aetherjacket
+- Lifecraft Engine
+- Marketback Walker
+- Rover Blades
+- Cryptcaller Chariot
+- Demonic Junker
+- Engine Rat
+- Grim Bauble
+- Hellish Sideswipe
+- Pactdoll Terror
+- Ripclaw Wrangler
+- The Last Ride
+- Wickerfolk Indomitable
+- Wreckage Wickerfolk
+- Wretched Doll
+Archetype: Discard Aggro
+- Bounce Off
+- Howler's Heavy
+- Keen Buccaneer
+- Scrounging Skyray
+- Spell Pierce
+- Trade the Helm
+- Unstoppable Plan
+- Waxen Shapethief
+- Monument to Endurance
+- Racer's Scoreboard
+- Gastal Thrillroller
+- Fuel The Flames
+- Greasewench Goblin
+- Marauding Mako
+- Skycrash
+- Clamorous Ironclad
+- Magmakin Artillerist
+- Thunderhead Gunner
+Archetype: Exhaust Ramp
+- Bounce Off
+- Caelorna, Coral Tyrant
+- Gearseeker Serpent
+- Glitch Ghost Surveyor
+- Guidelight Optimizer
+- Keen Buccaneer
+- Ranger's Refueler
+- Riverchurn Monument
+- Sabotage Strategist
+- Skystreak Engineer
+- Slick Imitator
+- Spectral Interference
+- Stock Up
+- Transit Mage
+- Vnwxt, Verbose Host
+- Marshals' Pathcruiser
+- Pit Automaton
+- Racer's Scoreboard
+- Afterburner Expert
+- Elvish Refueler
+- Greenbelt Guardian
+- Hazard of the Dunes
+- Lumbering Worldwagon
+- Point The Way
+- Pothole Mole
+- Stampeding Scurryfoot
+- Veloheart Bike
+Archetype: Exhaust Midrange
+- Boommobile
+- Daretti, Rocketter Engineer
+- Draconautics Engineer
+- Full Throttle
+- Adrenaline Jockey
+- Dracosaur Auxiliary
+- Greasewench Goblin
+- Pacesetter Paragon
+- Push the Limit
+- Skycrash
+- Gastal Blockbuster
+- Prowcatcher Specialist
+- Pit Automaton
+- Agonasaur Rex
+- Beastrider Vanguard
+- Defend the Rider
+- Elvish Refueler
+- Greenbelt Guardian
+- Hazard of the Dunes
+- Migrating Ketradon
+- Regal Imperiosaur
+- Silken Strength
+- Stampeding Scurryfoot
+- Webstrike Elite
+Archetype: Graveyard
+- Back on Track
+- Bloodghast
+- Carrion Cruiser
+- Chitin Gravestalker
+- Cursecloth Wrappings
+- Deathless Pilot
+- Grim Bauble
+- Grim Javelineer
+- Mutant Surveyor
+- Quag Feast
+- Wickerfolk Indomitable
+- Wreckage Wickerfolk
+- Wretched Doll
+- Afterburner Expert
+- Dredger's Insight
+- Earthrumbler
+- Loxodon Surveyor
+- Molt Tender
+- Ooze Patrol
+- Pothole Mole
+- Rise from the Wreck
+Archetype: Max Speed Aggro
+- Gas Guzzler
+- Gastal Rider
+- Gonti, Night Minister
+- Grim Javelineer
+- Hour of Victory
+- Kalakscion, Hunger Tyrant
+- Locust Spray
+- Maximum Overdrive
+- Momentum Breaker
+- Mutant Surveyor
+- Starting Column
+- Walking Sarcophagus
+- Hazoret, God Seeker
+- Burnout Bashtronaut
+- Howlsquad Heavy
+- Endrider Spikespitter
+- Outpace Oblivion
+- Spire Mechcycle
+- Endrider Catalyzer
+- Goblin Surveyor
+- Kickoff Celebrations
+Archetype: Removal
+- Ride's End
+- Scrap Compactor
+- Flood the Engine
+- Roadside Blowout
+- Stall Out
+- Trip Up
+- Spin Out
+- Syphon Fuel
+- Crash and Burn
+- Lightning Strike
+- Broken Wings
+- Plow Through
+- Run Over

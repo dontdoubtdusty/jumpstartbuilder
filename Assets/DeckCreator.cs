@@ -7,21 +7,25 @@ using System;
 public class DeckCreator : MonoBehaviour
 {
     public PanelSelectionHandler panelSelectionHandler;
+    public TextAsset cardListSource;
+    public CardCreator cardCreator;
 
-    public List<Card> LoadAllCards()
+    public CardCreator.ListOfCards LoadAllCards()
     {
-        List<Card> loadedCards = new List<Card>();
+        CardCreator.ListOfCards listOfCards = new CardCreator.ListOfCards(); //ListOfCards contains List<Card> cards
+        List<Card> loadedCards;
         string filePath = Path.Combine(Application.dataPath, "CardData.json");
 
-        if(File.Exists(filePath))
-        {
-            string cardsJson = File.ReadAllText(filePath);
+            string cardsJson = cardListSource.text;
+            Debug.Log("JSON: " + cardsJson);
             if(!string.IsNullOrEmpty(cardsJson))   //Makes sure there is a CardData.json file
             {
                 try
                 {
-                    // Directly deserialize into List<Card>
-                    loadedCards = JsonUtility.FromJson<ListWrapper<Card>>(WrapListToJson(cardsJson)).cards;
+                    //Create a new ListOfCards object, which can be deserialized into a JSON
+                    listOfCards = JsonUtility.FromJson<CardCreator.ListOfCards>(cardsJson);
+                    loadedCards = listOfCards.cards; //Retrieve list 'cards' from within ListOfCards
+                    Debug.Log("loadedCards: " + loadedCards + " contains " + loadedCards.Count);
 
                 }
                 catch (Exception e) // Catch any exceptions that occur during JSON parsing.
@@ -33,15 +37,18 @@ public class DeckCreator : MonoBehaviour
             {
                 Debug.LogError("CardData.json not found at " + filePath);
             }
+
+        if(listOfCards == null)
+        {
+            Debug.LogError("listOfCards is null!");
         }
-        
-        return loadedCards;
+        return listOfCards;
     }
 
     public Card LoadSingleCard(string cardName)
     {
         Debug.Log("Name being passed through here is: " + cardName);
-        List<Card> loadedCards = LoadAllCards();
+        List<Card> loadedCards = LoadAllCards().cards;
 
         if(loadedCards != null)
         {
@@ -63,13 +70,6 @@ public class DeckCreator : MonoBehaviour
         return null;
     }
 
-    private class ListWrapper<T>
-    {
-        public List<T> cards;
-    }
 
-    private string WrapListToJson(string json)
-    {
-        return "{\"cards\":" + json + "}";
-    }
+
 }

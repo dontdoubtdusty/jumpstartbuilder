@@ -772,6 +772,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panelSelectionHandler: {fileID: 439261609}
+  cardListSource: {fileID: 0}
+  cardCreator: {fileID: 439261612}
 --- !u!114 &431320499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -829,6 +831,7 @@ GameObject:
   m_Component:
   - component: {fileID: 439261608}
   - component: {fileID: 439261610}
+  - component: {fileID: 439261612}
   - component: {fileID: 439261607}
   - component: {fileID: 439261606}
   - component: {fileID: 439261609}
@@ -890,6 +893,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panelSelectionHandler: {fileID: 439261609}
+  cardListSource: {fileID: 4900000, guid: 9c6810001a5dde94597d0a4435367e50, type: 3}
+  cardCreator: {fileID: 439261612}
 --- !u!4 &439261608
 Transform:
   m_ObjectHideFlags: 0
@@ -965,6 +970,19 @@ MonoBehaviour:
     png: 
     art_crop: 
     border_crop: 
+--- !u!114 &439261612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439261605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b8a413f1625d0144827dc8b45600e7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allCards: []
 --- !u!1 &480509621
 GameObject:
   m_ObjectHideFlags: 0

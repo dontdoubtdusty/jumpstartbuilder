@@ -87,7 +87,7 @@ public class DeckCreatorUI : MonoBehaviour
             Destroy(child.gameObject);
         }
         
-        List<Card> cards = deckCreator.LoadAllCards();
+        List<Card> cards = deckCreator.LoadAllCards().cards;
 
         foreach (Card card in cards)
         {
@@ -131,7 +131,7 @@ public class DeckCreatorUI : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        List<Card> cards = deckCreator.LoadAllCards();
+        List<Card> cards = deckCreator.LoadAllCards().cards;
 
         Debug.Log(ignoredCardsList.Count + " items in ignoredCardsList.");
         
@@ -258,7 +258,7 @@ public class DeckCreatorUI : MonoBehaviour
         bool toggleOn = multicolorToggle.GetComponent<Toggle>().isOn;
         if (!toggleOn) //If off, remove all multicolored cards from the list
         {
-            foreach(Card card in deckCreator.LoadAllCards())
+            foreach(Card card in deckCreator.LoadAllCards().cards)
             {
                 if (card.colors.Contains("M"))
                 {
@@ -269,7 +269,7 @@ public class DeckCreatorUI : MonoBehaviour
             return;
         }
         
-        foreach(Card card in deckCreator.LoadAllCards())
+        foreach(Card card in deckCreator.LoadAllCards().cards)
         {
             if (card.colors.Contains("M"))
             {
@@ -286,7 +286,7 @@ public class DeckCreatorUI : MonoBehaviour
         bool toggleOn = colorlessToggle.GetComponent<Toggle>().isOn;
         if (!toggleOn) //If off, remove all multicolored cards from the list
         {
-            foreach(Card card in deckCreator.LoadAllCards())
+            foreach(Card card in deckCreator.LoadAllCards().cards)
             {
                 if (card.colors.Contains("C"))
                 {
@@ -297,7 +297,7 @@ public class DeckCreatorUI : MonoBehaviour
             return;
         }
         
-        foreach(Card card in deckCreator.LoadAllCards())
+        foreach(Card card in deckCreator.LoadAllCards().cards)
         {
             if (card.colors.Contains("C"))
             {
