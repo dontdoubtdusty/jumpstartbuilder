@@ -12,6 +12,7 @@ public class Card
     public List<string> colors;
     public CardRarity rarity;
     public int manaCost;
+    public string oracle_text;
     public List<string> archetypes;
     public bool isRemoval;
     public bool isCreature;

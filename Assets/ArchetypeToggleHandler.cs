@@ -10,7 +10,7 @@ public class ArchetypeToggleHandler : MonoBehaviour
     void Awake()
     {
         toggle = GetComponent<Toggle>();
-        Debug.Log("Toggle name: " + toggle.gameObject.name);
+        //Debug.Log("Toggle name: " + toggle.gameObject.name);
         toggle.onValueChanged.AddListener(OnToggleValueChanged);
     }
 

@@ -712,7 +712,6 @@ GameObject:
   m_Component:
   - component: {fileID: 431320500}
   - component: {fileID: 431320499}
-  - component: {fileID: 431320498}
   - component: {fileID: 431320497}
   - component: {fileID: 431320501}
   m_Layer: 0
@@ -734,7 +733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8bd04391bd1764d97f6bbd2ff85f86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckCreator: {fileID: 439261607}
+  saveHandler: {fileID: 439261613}
   cardPanelPrefab: {fileID: 5201922446037324283, guid: d83aebbceb9693148a2b7f04deefff43, type: 3}
   contentPanel: {fileID: 1259349096}
   archetypeHeaderPanelPrefab: {fileID: 5030530471003474448, guid: 734e4362f6c66d14cbb37b7276267ab5, type: 3}
@@ -759,21 +758,6 @@ MonoBehaviour:
     colorValue: {r: 0.46226418, g: 0.44263977, b: 0.44263977, a: 1}
   - colorName: M
     colorValue: {r: 0.8235294, g: 0.73333335, b: 0.48235294, a: 1}
---- !u!114 &431320498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 431320496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1c4436467b6201428066006bc013fd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panelSelectionHandler: {fileID: 439261609}
-  cardListSource: {fileID: 0}
-  cardCreator: {fileID: 439261612}
 --- !u!114 &431320499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -819,7 +803,7 @@ MonoBehaviour:
   deckListCreaturePanel: {fileID: 1823762005}
   deckListNoncreaturePanel: {fileID: 1880800796}
   panels: []
-  deckCreator: {fileID: 439261607}
+  saveHandler: {fileID: 439261613}
   deckCreatorUI: {fileID: 439261606}
 --- !u!1 &439261605
 GameObject:
@@ -830,6 +814,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 439261608}
+  - component: {fileID: 439261613}
   - component: {fileID: 439261610}
   - component: {fileID: 439261612}
   - component: {fileID: 439261607}
@@ -855,7 +840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8bd04391bd1764d97f6bbd2ff85f86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckCreator: {fileID: 439261607}
+  saveHandler: {fileID: 439261613}
   cardPanelPrefab: {fileID: 5201922446037324283, guid: d83aebbceb9693148a2b7f04deefff43, type: 3}
   contentPanel: {fileID: 1259349096}
   archetypeHeaderPanelPrefab: {fileID: 5030530471003474448, guid: 734e4362f6c66d14cbb37b7276267ab5, type: 3}
@@ -892,9 +877,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1c4436467b6201428066006bc013fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelSelectionHandler: {fileID: 439261609}
-  cardListSource: {fileID: 4900000, guid: 9c6810001a5dde94597d0a4435367e50, type: 3}
-  cardCreator: {fileID: 439261612}
 --- !u!4 &439261608
 Transform:
   m_ObjectHideFlags: 0
@@ -927,7 +909,7 @@ MonoBehaviour:
   deckListCreaturePanel: {fileID: 1823762005}
   deckListNoncreaturePanel: {fileID: 1880800796}
   panels: []
-  deckCreator: {fileID: 439261607}
+  saveHandler: {fileID: 439261613}
   deckCreatorUI: {fileID: 439261606}
 --- !u!114 &439261610
 MonoBehaviour:
@@ -982,6 +964,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b8a413f1625d0144827dc8b45600e7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveHandler: {fileID: 439261613}
+--- !u!114 &439261613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439261605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c27a7a9a8b6d58b4cb6a8938328f6156, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardListSource: {fileID: 4900000, guid: 9c6810001a5dde94597d0a4435367e50, type: 3}
+  cardCreator: {fileID: 439261612}
   allCards: []
 --- !u!1 &480509621
 GameObject:
@@ -2110,7 +2107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &817268800
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2436,7 +2433,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 78.4, y: 144.5}
+  m_AnchoredPosition: {x: 165.9, y: 202.3}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1070374688
@@ -3240,7 +3237,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 231.4, y: 208.5}
+  m_AnchoredPosition: {x: 256.2, y: 201.9}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1593115399

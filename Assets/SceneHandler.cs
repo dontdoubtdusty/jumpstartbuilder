@@ -15,6 +15,10 @@ public class SceneHandler : MonoBehaviour
         SceneManager.LoadScene("Card Input Screen");
     }
 
+    public void LoadArchetyperScreen()
+    {
+        SceneManager.LoadScene("Archetyper Screen");
+    }
     public void LoadSceneByName(string sceneName)
     {
         SceneManager.LoadScene(sceneName);

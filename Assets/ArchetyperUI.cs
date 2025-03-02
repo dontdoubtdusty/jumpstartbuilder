@@ -1,10 +1,10 @@
     using System.Collections;
     using System.Collections.Generic;
-using System.IO;
-using System.Reflection.Emit;
+    using System.IO;
+    using System.Reflection.Emit;
     using JetBrains.Annotations;
-using TMPro;
-using UnityEngine;
+    using TMPro;
+    using UnityEngine;
     using UnityEngine.Networking;
     using UnityEngine.UI;
 
@@ -15,11 +15,19 @@ using UnityEngine;
         /*
         TO DO LIST:
         -----------
-        Exclude mulitcolored cards from the list
         Assign chosen archetypes to displayed card
+        Save card after/as archetypes are assigned
+        Create a Dictionary in a separate file:
+            Dictionary<string, List<string>>
+            string = the card name and List<string> = the associated archetypes
+            Backup in case we change anything later so we don't have to re-archetype
+
+
+        Add scoring/yes no maybe system to archetype choices
         */
 
-        public DeckCreator deckCreator;
+        public SaveHandler saveHandler;
+        public CardCreator cardCreator;
         public List<Card> loadedCards;
         public GameObject cardDisplayPanel, archetypePanel;
         public Button displayButton;
@@ -28,64 +36,85 @@ using UnityEngine;
         public ArchetypeList archetypeListScript;
         public TextMeshProUGUI archetypedCardsCounter;
         public TextAsset cardListSourceFile;
-        private int currentCardIndex = -1;
         private List<string> userArchetypes = new List<string>();
+        private List<Card> untaggedCards = new List<Card>();
+        int completedCards;
+        string filePath;
+        private System.DateTime lastWriteTime;
+        int loadedCardsLength;
 
         void Start()
         {
-            loadedCards = deckCreator.LoadAllCards().cards;
-            Debug.Log("Loaded cards: " + loadedCards);
+            loadedCardsLength = saveHandler.LoadAllCards().cards.Count;
+            filePath = Path.Combine(Application.dataPath, "CardData.json");
+            lastWriteTime = File.GetLastWriteTime(filePath);
+            DisplayNextCard();
+            UpdateArchetypeCounter();
         }
 
-        public void OnDisplayButtonClick()
+        void Update()
         {
-            //Display completed cards counter
-            int completedCards = 0;
-            foreach (Card card in loadedCards)
+            if(File.GetLastWriteTime(filePath) != lastWriteTime)
             {
-                if(card.archetypes.Count > 0)
+                lastWriteTime = File.GetLastWriteTime(filePath);
+                Debug.Log("File changed, updating.");
+                saveHandler.LoadAllCards();
+                DisplayNextCard();
+                UpdateArchetypeCounter();
+            }
+        }
+
+        public void DisplayNextCard()
+        {
+            SaveHandler.ListOfCards cards = saveHandler.LoadAllCards();
+
+            // Check if the card data was loaded successfully.
+            if (cards == null || cards.cards == null)
+            {
+                Debug.LogError("Error loading cards from save handler");
+                return; // Exit if there was an error.
+            }
+
+            //Clear previous list of cards
+            untaggedCards.Clear();
+
+            //Retrieve list of cards with no archetypes
+            foreach (Card card in cards.cards)
+            {
+                if (card.archetypes.Count < 1)
                 {
-                    completedCards++;
+                    untaggedCards.Add(card);
                 }
             }
-            
-            archetypedCardsCounter.text = completedCards.ToString() + "/" + loadedCards.Count; //ex (0/240)
 
-            //Load random card from loadedCards list
-            int randomIndex = Random.Range(0, loadedCards.Count);
-            Debug.Log("loadedCards.Count: " + loadedCards.Count);
-            Card randomCard = loadedCards[randomIndex];
-            currentCardIndex = randomIndex;
-
-            if(archetypeListScript != null && archetypeListScript.archetypeColorPairs != null)
+            if(untaggedCards.Count == 0)
             {
-
-            }
-            else 
-            {
-                Debug.LogError("archetypeListScript or archetypeColorPairs is null!");
-            }
-            if(randomCard.archetypes != null)
-            {
-                Debug.Log("Archetypes: " + randomCard.archetypes.Count + " " +  randomCard.archetypes);
-                Debug.Log("Card list contains: " + loadedCards.Count);
-            }
-            else
-            {
-                Debug.Log("Archetypes list is null!");
+                Debug.Log("No untagged cards found!");
+                return;
             }
 
-            DisplayArchetypes(randomCard, archetypeListScript.archetypeColorPairs);
-            
-            StartCoroutine(DisplayCard(randomCard.image_Uris.normal));
+            userArchetypes.Clear();
+
+            // Start the coroutine and wait for it to finish.
+            StartCoroutine(WaitForDisplayCard(untaggedCards[0].image_Uris.normal, untaggedCards[0]));
         }
 
+        IEnumerator WaitForDisplayCard(string imageUrl, Card card)
+        {
+            yield return StartCoroutine(DisplayCard(imageUrl)); // Wait for DisplayCard to finish.
+
+            UpdateArchetypeCounter();
+            DisplayArchetypes(card, archetypeListScript.archetypeColorPairs);
+        }
         public void OnHitchButtonClicked()
         {
-            Card selectedCard = loadedCards[currentCardIndex];
-            Debug.Log("The card at index " + currentCardIndex + " is " + selectedCard.cardName);
+            Card selectedCard = untaggedCards[0];
             selectedCard.archetypes = userArchetypes;
-            Debug.Log(selectedCard + " now has archetype(s): " + selectedCard.archetypes[0] + " and " + selectedCard.archetypes[1]);
+            saveHandler.UpdateCard(selectedCard); 
+            loadedCards = saveHandler.LoadAllCards().cards;
+            DisplayNextCard();
+            ResetToggles();
+            //Debug.Log(selectedCard + " now has archetype(s): " + selectedCard.archetypes[0] + " and " + selectedCard.archetypes[1]);
         }
 
         public void OnArchetypeToggleClicked(Toggle toggle)
@@ -95,9 +124,10 @@ using UnityEngine;
 
             if(toggleOn)
             {
-                userArchetypes.Add(labelText.ToString());
+                userArchetypes.Add(labelText.text.ToString());
                 Debug.Log(labelText.text + " added!");
                 Debug.Log("userArchetypes contains: " + userArchetypes.Count);
+                Debug.Log(userArchetypes[0]);
                 return;
             }
             
@@ -112,20 +142,25 @@ using UnityEngine;
             {
                 Destroy(child.gameObject);
             }
+
+            //Clear previous toggles list
+            togglesList.Clear();
             //Debug.Log("Card color: " + card.colors[0]);
+
             foreach (ArchetypeList.ArchetypeColorPair pair in archetypeColorPairs)
             {
                 //Debug.Log("pair.color1: " + pair.color1 + " pair.color2 " + pair.color2);
                 
                 if(card.colors.Contains(pair.color1) || card.colors.Contains(pair.color2) || card.colors.Contains("C"))
                 {
-                    Debug.Log("Pair name: " + pair.archetypeName);
+                    //Debug.Log("Pair name: " + pair.archetypeName);
                     GameObject newTogglePrefab = Instantiate(togglePrefab.gameObject, archetypePanel.transform);
                     ArchetypeToggleHandler archetypeToggleHandler = newTogglePrefab.GetComponent<ArchetypeToggleHandler>();
                     Toggle newToggle = newTogglePrefab.GetComponent<Toggle>();  
                     Text toggleText = newToggle.GetComponentInChildren<Text>();
-                    Debug.Log("Toggle text: " + toggleText);
+                    //Debug.Log("Toggle text: " + toggleText);
                     toggleText.text = pair.archetypeName;
+                    togglesList.Add(newToggle);
 
                     archetypeToggleHandler.SetArchetyperUI(this);
                 }
@@ -134,12 +169,12 @@ using UnityEngine;
 
         IEnumerator DisplayCard(string imageUrl)
         {
-            Debug.Log("imageurl: " + imageUrl);
+            //Debug.Log("imageurl: " + imageUrl);
             using UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(imageUrl);
             {
                 yield return webRequest.SendWebRequest();
 
-                Debug.Log("imageUrl: " + imageUrl);
+                //Debug.Log("imageUrl: " + imageUrl);
 
                 if(webRequest.result == UnityWebRequest.Result.Success)
                 {
@@ -155,6 +190,39 @@ using UnityEngine;
                 {
                     Debug.LogWarning("Web request failure: " + webRequest.result);
                 }
+            }
+        }
+
+        public void UpdateArchetypeCounter()
+        {
+            SaveHandler.ListOfCards cards = saveHandler.LoadAllCards();
+
+            // Check for null values.
+            if (cards == null || cards.cards == null)
+            {
+                return;
+            }
+
+            completedCards = 0;
+
+            foreach (Card card in cards.cards)
+            {
+                if(card.archetypes.Count > 0)
+                {
+                    completedCards++;
+                    //Debug.Log(completedCards);
+                }
+            }
+
+            Debug.Log("There are " + completedCards + " completed cards.");
+            archetypedCardsCounter.text = "Completed: " + completedCards.ToString() + "/" + loadedCardsLength; //ex (0/240)
+        }
+
+        public void ResetToggles()
+        {
+            foreach(Toggle toggle in togglesList)
+            {
+                toggle.isOn = false;
             }
         }
     }

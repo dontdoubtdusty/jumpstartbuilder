@@ -4,7 +4,7 @@ using UnityEngine;
 using System.IO;
 using System;
 
-public class DeckCreator : MonoBehaviour
+/*public class DeckCreator : MonoBehaviour
 {
     public PanelSelectionHandler panelSelectionHandler;
     public TextAsset cardListSource;
@@ -72,4 +72,4 @@ public class DeckCreator : MonoBehaviour
 
 
 
-}
+}*/

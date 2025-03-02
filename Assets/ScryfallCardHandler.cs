@@ -23,6 +23,7 @@ public class ScryfallCard
     public string type_line;
     public string rarity;
     public string[] colors;
+    public string oracle_text;
     public Image_Uris image_Uris;
 }
 [System.Serializable]

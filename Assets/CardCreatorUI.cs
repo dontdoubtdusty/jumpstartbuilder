@@ -11,20 +11,16 @@ public class CardCreatorUI : MonoBehaviour
 {
 
     public CardCreator cardCreator; //Code that actually creates the card objects
-    public TMP_InputField searchInputField;
+    public TMP_InputField searchInputField, nameInputField;
     public Button createButton;
-    private List<Toggle> instantiatedToggles = new List<Toggle>();
-
-
-    
-
+  
     void Start()
     {
         //Create the Create button (heh)
 
         if(createButton != null)
         {
-            createButton.onClick.AddListener(CreateCardButtonClicked);
+            createButton.onClick.AddListener(ImportButtonClicked);
         }
         else
         {
@@ -32,7 +28,7 @@ public class CardCreatorUI : MonoBehaviour
         }
     }
 
-    void CreateCardButtonClicked()
+    void ImportButtonClicked()
     {  
 
         //Card newCard = cardCreator.CreateCard(cardName, selectedColors[], selectedRarity, manaCost, chosenArchetypes, isRemoval, isCreature);
@@ -42,6 +38,7 @@ public class CardCreatorUI : MonoBehaviour
 
         // Clear the card name input field
         searchInputField.text = "";
+        nameInputField.text = "";
               
     }
 

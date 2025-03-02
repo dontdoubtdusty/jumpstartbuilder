@@ -8,23 +8,16 @@ using UnityEngine.EventSystems;
 
 /*
 
-KNOWN ISSUES:
---------------
+TO DO LIST:
 
-Clicking on ColorButton resets list, ignoring list of ignored cards
-Clicking on AddButton for multicolored card ends the filter loop and panels aren't instantiated properly
-
-FUTURE GOALS:
--------------
-
-Enable mulitcolored check box
-Enable colorless check box
+Populate archetype headers, then populate cards based on archetype
+Repeat cards are allowed if they are in more than one archetype
 
 */
 public class DeckCreatorUI : MonoBehaviour
 {
 
-    public DeckCreator deckCreator;
+    public SaveHandler saveHandler;
     public GameObject cardPanelPrefab; //The panels showing card name and mana cost on the right side
     public Transform contentPanel; //The ScrollView's content panel, containing the instantiated cards
     // Start is called before the first frame update
@@ -87,7 +80,7 @@ public class DeckCreatorUI : MonoBehaviour
             Destroy(child.gameObject);
         }
         
-        List<Card> cards = deckCreator.LoadAllCards().cards;
+        List<Card> cards = saveHandler.LoadAllCards().cards;
 
         foreach (Card card in cards)
         {
@@ -131,7 +124,7 @@ public class DeckCreatorUI : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        List<Card> cards = deckCreator.LoadAllCards().cards;
+        List<Card> cards = saveHandler.LoadAllCards().cards;
 
         Debug.Log(ignoredCardsList.Count + " items in ignoredCardsList.");
         
@@ -258,7 +251,7 @@ public class DeckCreatorUI : MonoBehaviour
         bool toggleOn = multicolorToggle.GetComponent<Toggle>().isOn;
         if (!toggleOn) //If off, remove all multicolored cards from the list
         {
-            foreach(Card card in deckCreator.LoadAllCards().cards)
+            foreach(Card card in saveHandler.LoadAllCards().cards)
             {
                 if (card.colors.Contains("M"))
                 {
@@ -269,7 +262,7 @@ public class DeckCreatorUI : MonoBehaviour
             return;
         }
         
-        foreach(Card card in deckCreator.LoadAllCards().cards)
+        foreach(Card card in saveHandler.LoadAllCards().cards)
         {
             if (card.colors.Contains("M"))
             {
@@ -286,7 +279,7 @@ public class DeckCreatorUI : MonoBehaviour
         bool toggleOn = colorlessToggle.GetComponent<Toggle>().isOn;
         if (!toggleOn) //If off, remove all multicolored cards from the list
         {
-            foreach(Card card in deckCreator.LoadAllCards().cards)
+            foreach(Card card in saveHandler.LoadAllCards().cards)
             {
                 if (card.colors.Contains("C"))
                 {
@@ -297,7 +290,7 @@ public class DeckCreatorUI : MonoBehaviour
             return;
         }
         
-        foreach(Card card in deckCreator.LoadAllCards().cards)
+        foreach(Card card in saveHandler.LoadAllCards().cards)
         {
             if (card.colors.Contains("C"))
             {

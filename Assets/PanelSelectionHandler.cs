@@ -11,7 +11,7 @@ public class PanelSelectionHandler : MonoBehaviour
     public Transform deckListCreaturePanel, deckListNoncreaturePanel;
     public List<GameObject> panels = new List<GameObject>();
     private GameObject selectedPanel;
-    public DeckCreator deckCreator;
+    public SaveHandler saveHandler;
     public DeckCreatorUI deckCreatorUI;
     private string chosenColor;
     private string cardName;
@@ -38,7 +38,7 @@ public class PanelSelectionHandler : MonoBehaviour
         if(deckPanelPrefab != null)
         {
 
-            Card card = deckCreator.LoadSingleCard(selectedPanel.name);
+            Card card = saveHandler.LoadSingleCard(selectedPanel.name);
             GameObject newPanel = null;
             
 
