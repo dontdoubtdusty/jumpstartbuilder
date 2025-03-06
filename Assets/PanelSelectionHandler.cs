@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PanelSelectionHandler : MonoBehaviour
 {
-    public GameObject addButton;
+    public GameObject addButton, removeButton;
     public GameObject deckPanelPrefab;
     public Transform deckListCreaturePanel, deckListNoncreaturePanel;
     public List<GameObject> panels = new List<GameObject>();
@@ -19,12 +19,23 @@ public class PanelSelectionHandler : MonoBehaviour
     void Start()
     {
         addButton.SetActive(false);
+        removeButton.SetActive(false);
     }
 
     public void SelectPanel(GameObject panel)
     {
         selectedPanel = panel;
-        addButton.SetActive(true);
+
+        //Determine which panel the selected panel is in
+        if(selectedPanel.transform.parent.name == "Viewport Card List")
+        {
+            addButton.SetActive(true);
+        }
+        else
+        {
+            removeButton.SetActive(true);
+        }
+        
         Debug.Log("Panel Selected: " + panel.name);
     }
 
@@ -53,6 +64,9 @@ public class PanelSelectionHandler : MonoBehaviour
 
             panels.Add(newPanel);
 
+            //Add click listener
+            newPanel.GetComponent<Button>().onClick.AddListener(() => SelectPanel(newPanel));
+
             newPanel.name = card.cardName;
             cardName = card.cardName;
             TextMeshProUGUI newCardName = newPanel.transform.Find("Card Name").GetComponent<TextMeshProUGUI>();
@@ -80,29 +94,35 @@ public class PanelSelectionHandler : MonoBehaviour
                 panelCardData.isMulticolored = card.isMulticolored;
                 panelCardData.type_line = card.type_line;
                 panelCardData.image_Uris = card.image_Uris;
-                /*panelCardData.imageUris.small = card.imageUris.small;
-                panelCardData.imageUris.large = card.imageUris.large;
-                panelCardData.imageUris.png = card.imageUris.png;
-                panelCardData.imageUris.art_crop = card.imageUris.art_crop;
-                panelCardData.imageUris.border_crop = card.imageUris.border_crop;*/
+
+            /*          
+            Multicolored cards, currently not necessary as we exclude them from the import
 
             if(card.colors.Count > 1)
             {
                 Debug.Log("card.colors.Count = " + card.colors.Count.ToString());
                 deckCreatorUI.SetCardPanelColor(newPanel.GetComponent<UnityEngine.UI.Image>(), "M");  
                 card.isMulticolored = true;
+            }  
+            */
+
+            if(card.colors[0] != "C")
+            {
+                deckCreatorUI.SetCardPanelColor(newPanel.GetComponent<UnityEngine.UI.Image>(), chosenColor);
             }
             else
             {
-                Debug.Log("card.colors.Count = " + card.colors.Count.ToString() + " (SHOULD BE 1) and the color is " + card.colors[0]);
-                chosenColor = card.colors[0];
-                deckCreatorUI.SetCardPanelColor(newPanel.GetComponent<UnityEngine.UI.Image>(), chosenColor);
+                deckCreatorUI.SetCardPanelColor(newPanel.GetComponent<UnityEngine.UI.Image>(), "C");
             }
+        
+
         }
         else
         {
             Debug.LogError("Panel Prefab is null!");
         }
+
+                
 
         if (selectedPanel != null)
         {
@@ -118,15 +138,60 @@ public class PanelSelectionHandler : MonoBehaviour
             Debug.Log(deckCreatorUI.ignoreList);
             deckCreatorUI.LoadAndDisplayCards(chosenColor, deckCreatorUI.ignoreList);
 
-                    foreach(string item in deckCreatorUI.ignoreList)
-        {
-            Debug.Log("item in ignore list: " + item);
-        }
+            foreach(string item in deckCreatorUI.ignoreList)
+            {
+                Debug.Log("item in ignore list: " + item);
+            }
         }
         else
         {
             Debug.LogError("No card name!");
         }
 
+        //Update Creatures/Noncreatures headers
+        deckCreatorUI.UpdateCategoryCounts();
+        deckCreatorUI.UpdateArchetypePanels();  
+
+        //Hide the Add button
+        addButton.SetActive(false);
+
+    }
+
+    public void OnRemoveButtonClick()
+    /*
+        GOAL:
+        Use the Display method to refresh the list of cards
+        Remove the chosen card from the Display method's ignore list
+        Destroy the panel
+    */
+    {
+
+        if (selectedPanel != null)
+        {
+            Destroy(selectedPanel);
+            selectedPanel = null;
+        }
+
+        if(cardName != null)
+        {
+            Debug.Log("Card name is : " + cardName);
+            deckCreatorUI.ignoreList.Remove(cardName);
+            Debug.Log("Filter color: " + chosenColor);
+            Debug.Log(deckCreatorUI.ignoreList);
+            deckCreatorUI.LoadAndDisplayCards(chosenColor, deckCreatorUI.ignoreList);
+
+            foreach(string item in deckCreatorUI.ignoreList)
+            {
+                Debug.Log("item removed from ignore list: " + item);
+            }
+        }
+        else
+        {
+            Debug.LogError("No card name!");
+        }
+
+        //Update Creatures/Noncreatures headers
+        deckCreatorUI.UpdateCategoryCounts();
+        removeButton.SetActive(false);
     }
 }
