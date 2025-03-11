@@ -19,6 +19,10 @@ public class SceneHandler : MonoBehaviour
     {
         SceneManager.LoadScene("Archetyper Screen");
     }
+    public void LoadMainMenuScreen()
+    {
+        SceneManager.LoadScene("Main Menu Screen");
+    }
     public void LoadSceneByName(string sceneName)
     {
         SceneManager.LoadScene(sceneName);

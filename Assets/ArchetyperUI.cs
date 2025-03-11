@@ -4,7 +4,8 @@
     using System.Reflection.Emit;
     using JetBrains.Annotations;
     using TMPro;
-    using UnityEngine;
+using Unity.VisualScripting;
+using UnityEngine;
     using UnityEngine.Networking;
     using UnityEngine.UI;
 
@@ -30,11 +31,12 @@
         public CardCreator cardCreator;
         public List<Card> loadedCards;
         public GameObject cardDisplayPanel, archetypePanel;
-        public Button displayButton;
+        public Button hitchButton;
         public Toggle togglePrefab;
+
         public List<Toggle> togglesList;
         public ArchetypeList archetypeListScript;
-        public TextMeshProUGUI archetypedCardsCounter;
+        public TextMeshProUGUI archetypedCardsCounter, removalText;
         public TextAsset cardListSourceFile;
         private List<string> userArchetypes = new List<string>();
         private List<Card> untaggedCards = new List<Card>();
@@ -48,6 +50,8 @@
             loadedCardsLength = saveHandler.LoadAllCards().cards.Count;
             filePath = Path.Combine(Application.dataPath, "CardData.json");
             lastWriteTime = File.GetLastWriteTime(filePath);
+            removalText.gameObject.SetActive(false);
+            hitchButton.interactable = false;
             DisplayNextCard();
             UpdateArchetypeCounter();
         }
@@ -81,7 +85,7 @@
             //Retrieve list of cards with no archetypes
             foreach (Card card in cards.cards)
             {
-                if (card.archetypes.Count < 1)
+                if (card.isArchetyped == false)
                 {
                     untaggedCards.Add(card);
                 }
@@ -107,9 +111,12 @@
             DisplayArchetypes(card, archetypeListScript.archetypeColorPairs);
         }
         public void OnHitchButtonClicked()
+        //Check for new bool value: removalOnly
         {
             Card selectedCard = untaggedCards[0];
             selectedCard.archetypes = userArchetypes;
+            selectedCard.isArchetyped = true;
+            Debug.Log(selectedCard.cardName + " archetyped: " + selectedCard.isArchetyped);
             saveHandler.UpdateCard(selectedCard); 
             loadedCards = saveHandler.LoadAllCards().cards;
             DisplayNextCard();
@@ -118,22 +125,48 @@
         }
 
         public void OnArchetypeToggleClicked(Toggle toggle)
+        //Check to make sure a toggle is on before the Hitch button is interactable
         {
             bool toggleOn = toggle.GetComponent<Toggle>().isOn;
             Text labelText = toggle.GetComponentInChildren<Text>();
+            bool archetypeSelected = false;
 
             if(toggleOn)
+            //Add selected toggle's text to userArchetypes
             {
                 userArchetypes.Add(labelText.text.ToString());
-                Debug.Log(labelText.text + " added!");
-                Debug.Log("userArchetypes contains: " + userArchetypes.Count);
-                Debug.Log(userArchetypes[0]);
-                return;
             }
-            
-            userArchetypes.Remove(toggle.GetComponentInChildren<Text>().ToString());
-            Debug.Log(labelText.text + " removed!");
-            Debug.Log("userArchetypes contains: " + userArchetypes.Count);
+            else
+            {
+                userArchetypes.Remove(toggle.GetComponentInChildren<Text>().ToString());
+            }
+            //Remove selected toggle's text from userArchetypes
+
+            archetypeSelected = false;
+            for(int i = 0; i < archetypePanel.transform.childCount; i++)
+            //Iterate through each of the panel's toggle children
+            //If any of them are on, OR the card is removal:
+            //  Hitch Button ACTIVATE!!
+            {
+                //This is the toggle's gameObject
+                GameObject child = archetypePanel.transform.GetChild(i).gameObject;
+                //this is the Toggle itself
+                Toggle archetypeToggle = child.GetComponent<Toggle>();
+                //Redeclare the selected bool as false, make it earn it
+                if(archetypeToggle.isOn == true)
+                {
+                    archetypeSelected = true;
+                }
+            }
+
+            if(archetypeSelected == true || GetCurrentCard().isRemoval == true)
+            {
+                hitchButton.interactable = true;
+            }
+            else
+            {
+                hitchButton.interactable = false;
+            }
         }
         public void DisplayArchetypes(Card card, List<ArchetypeList.ArchetypeColorPair> archetypeColorPairs)
         {
@@ -164,6 +197,17 @@
 
                     archetypeToggleHandler.SetArchetyperUI(this);
                 }
+            }
+
+            if(card.isRemoval)
+            //Instantiate the "skip archetypes" button for removal cards
+            {
+                hitchButton.interactable = true;
+                removalText.gameObject.SetActive(true);
+            }
+            else
+            {
+                removalText.gameObject.SetActive(false);
             }
         }
 
@@ -207,7 +251,7 @@
 
             foreach (Card card in cards.cards)
             {
-                if(card.archetypes.Count > 0)
+                if(card.isArchetyped)
                 {
                     completedCards++;
                     //Debug.Log(completedCards);
@@ -224,5 +268,11 @@
             {
                 toggle.isOn = false;
             }
+        }
+
+        public Card GetCurrentCard()
+        {
+            Card card = untaggedCards[0];
+            return card;
         }
     }

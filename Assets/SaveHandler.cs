@@ -75,6 +75,7 @@ public class SaveHandler : MonoBehaviour
     }
 
     public void UpdateCard(Card cardToEdit)
+    //Method that passes a Card object through and updates/edits the archetypes and isArchetyped bool
     {
         LoadCardsFromFile();
         Debug.Log("allCards in UpdateCard: " + allCards.Count);
@@ -83,6 +84,7 @@ public class SaveHandler : MonoBehaviour
             if(allCards[i].cardName == cardToEdit.cardName)
             {
                 allCards[i].archetypes = cardToEdit.archetypes;
+                allCards[i].isArchetyped = cardToEdit.isArchetyped;
                 WriteAllCardsToFile();
                 LoadCardsFromFile();
                 //Debug.Log(allCards[i] + " now contains: " + allCards[i].archetypes[0]);

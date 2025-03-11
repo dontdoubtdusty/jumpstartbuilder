@@ -9,22 +9,32 @@ using Unity.VisualScripting;
 
 public class DeckCreatorUI : MonoBehaviour
 {
+    [Header("Important Stuff (Boring)")]
     public SaveHandler saveHandler;
-    public GameObject cardPanelPrefab; //The panels showing card name and mana cost on the right side
+    public PanelSelectionHandler panelSelectionHandler;
+    public CardData cardData; 
+    public List<ColorMapping> colorMapping; //Our list of MTG colors
+    [Header("Card List")]
+    public GameObject cardPanelPrefab;
+    public GameObject archetypeHeaderPanelPrefab; //The panels showing card name and mana cost on the right side
     public Transform contentPanel; //The ScrollView's content panel, containing the instantiated cards
     // Start is called before the first frame update
-    public GameObject archetypeHeaderPanelPrefab;
-    public PanelSelectionHandler panelSelectionHandler;
     public string currentFilterColor;
     public List<string> ignoreList;
     public Toggle multicolorToggle, colorlessToggle;
-    public CardData cardData;
-    public GameObject creaturesPanel, noncreaturesPanel;
+    [Header("Deck List")]
+    public GameObject creaturesPanel;
+    public GameObject noncreaturesPanel;
     public GameObject thrivingLandPanel, thrivingGatePanel;
-    public GameObject archetypePanel1, archetypePanel2, archetypePanel3, archetypePanel4;
-    public GameObject rarePanel, removalPanel;
+    public TextMeshProUGUI cardCountDisplayText;
+
+    [Header("Archtypes List")]
+    public GameObject archetypePanel1;
+    public GameObject archetypePanel2, archetypePanel3, archetypePanel4;
+    public GameObject rarePanel, removalPanel, signaturePanel;
     public ArchetypeList archetypeList;
     public GameObject statTextPrefab;
+
 
     [System.Serializable]
     public struct ColorMapping
@@ -33,7 +43,7 @@ public class DeckCreatorUI : MonoBehaviour
         public Color colorValue;
     }
 
-    public List<ColorMapping> colorMapping;
+
 
     public void Start()
     {
@@ -70,8 +80,31 @@ public class DeckCreatorUI : MonoBehaviour
         return currentFilterColor;
     }
 
-    public void DisplayArchetypeHeaders()
+    public void DisplayArchetypesAndCards(List<Card> cards, List<string> ignoredCardsList)
     {
+        //Create the list of filtered cards first
+        List<Card> filteredCards = new List<Card>();
+        List<Card> removalCards = new List<Card>();
+
+        currentFilterColor = GetStoredFilterColor();
+
+        foreach(Card card in cards)
+        {
+            if(!ignoredCardsList.Contains(card.cardName)) //Check card is not on ignored list
+            {
+                if(card.colors.Contains(currentFilterColor)) //Check card contains stored filter color
+                {
+                    filteredCards.Add(card);
+                }
+            }
+        }
+
+        // Sort filteredCards by mana cost OR card name using a bubble sort. It just works idk.
+
+        filteredCards.Sort((a, b) => a.manaCost.CompareTo(b.manaCost));
+        //filteredCards.Sort((a, b) => a.cardName.CompareTo(b.cardName));
+
+        //Retrieve the list of applicable archetypes based on currentFilterColor
         List<string> matchingArchetypes = new List<string>();
         foreach(ArchetypeList.ArchetypeColorPair archetypeColorPair in archetypeList.archetypeColorPairs)
         {
@@ -81,100 +114,82 @@ public class DeckCreatorUI : MonoBehaviour
                 Debug.Log("Archetype name: " + archetypeColorPair.archetypeName);
             }
         }
-
-        foreach(string archetype in matchingArchetypes)
+        //Instantiate a header for each archetype
+        //Followed by instantiating all the cards that fit under that archetype
+        foreach(string archetypeName in matchingArchetypes)
         {
-            GameObject newArchetypePanel = Instantiate(cardPanelPrefab, contentPanel);
-            TextMeshProUGUI newPanelName = newArchetypePanel.transform.Find("Card Name").GetComponent<TextMeshProUGUI>();
-            newPanelName.text = archetype;
+            LoadArchetypeHeader(archetypeName);
+            foreach(Card card in filteredCards)
+            {
+                if(card.archetypes.Contains(archetypeName))
+                {
+                    DisplayCardInScrollview(card);
+                }
+            }
+            
         }
+
+        LoadArchetypeHeader("Removal");
+        foreach(Card card in filteredCards)
+        {
+            if(card.isRemoval)
+            {
+                DisplayCardInScrollview(card);
+            }
+        }
+        //Do the same for removal
+        //Do the same for signature cards
     }
 
-    public void DisplayCardsInScrollview(string filterColor, List<Card> cards, List<string> ignoredCardsList)
+    public void LoadArchetypeHeader(string archetype)
     {
-        if(cards != null && filterColor != null) //If there are cards and a filter is selected
-        {
-            List<Card> filteredCards = new List<Card>();
+            GameObject newArchetypePanel = Instantiate(archetypeHeaderPanelPrefab, contentPanel);
+            TextMeshProUGUI newPanelName = newArchetypePanel.transform.Find("Card Name").GetComponent<TextMeshProUGUI>();
+            newPanelName.text = archetype;
+    }
 
-            //Check each card in the cards list for matching color
-            foreach (Card card in cards)
-            {
-                if(!ignoredCardsList.Contains(card.cardName))
-                {
-                    if(card.colors.Contains(filterColor) || card.colors.Contains("C"))
-                    { 
-                            filteredCards.Add(card);
-                    }
-                    else if (filterColor == "C")
-                    {
-                        filteredCards.Add(card);
-                    }  
-                }
-       
-            }
+    public void DisplayCardInScrollview(Card card)
+    {
+                    //Substantiate prefab Card Panel
+                    //contentPanel is the scrollview Content object
+                    GameObject newCardPanel = Instantiate(cardPanelPrefab, contentPanel);
 
-            // Sort filteredCards by mana cost using a bubble sort. It just works idk.
+                    //Add click listener
+                    newCardPanel.GetComponent<Button>().onClick.AddListener(() => panelSelectionHandler.SelectPanel(newCardPanel));
+                    newCardPanel.name = card.cardName;
 
-            filteredCards.Sort((a, b) => a.manaCost.CompareTo(b.manaCost));
-
-            foreach (Card card in filteredCards)
-            {
-                //Substantiate prefab Card Panel
-                GameObject newCardPanel = Instantiate(cardPanelPrefab, contentPanel);
-
-                //Add click listener
-                newCardPanel.GetComponent<Button>().onClick.AddListener(() => panelSelectionHandler.SelectPanel(newCardPanel));
-                newCardPanel.name = card.cardName;
-
-                if(card.colors.Count > 1)
-                {
-                    //Debug.Log("card.colors.Count = " + card.colors.Count.ToString());
-                    SetCardPanelColor(newCardPanel.GetComponent<UnityEngine.UI.Image>(), "M");  
-                }
-                else
-                {
                     SetCardPanelColor(newCardPanel.GetComponent<UnityEngine.UI.Image>(), card.colors[0]);
-                }
 
-                //Find the name and mana cost TMP text boxes on the card panels
+                    //Find the name and mana cost TMP text boxes on the card panels
 
-                TextMeshProUGUI newCardName = newCardPanel.transform.Find("Card Name").GetComponent<TextMeshProUGUI>();
-                TextMeshProUGUI newCardManaCost = newCardPanel.transform.Find("Card Cost").GetComponent<TextMeshProUGUI>();
+                    TextMeshProUGUI newCardName = newCardPanel.transform.Find("Card Name").GetComponent<TextMeshProUGUI>();
+                    TextMeshProUGUI newCardManaCost = newCardPanel.transform.Find("Card Cost").GetComponent<TextMeshProUGUI>();
 
-                if(newCardName != null && newCardManaCost != null)
-                //Replace the placeholder text of the Card Panels with the card object's info
-                {
-                    newCardName.text = card.cardName;
-                    newCardManaCost.text = card.manaCost.ToString();
-                }
-                else
-                {
-                    Debug.LogError("Card Name or Card Cost TMP elements are null!");
-                }
+                    if(newCardName != null && newCardManaCost != null)
+                    //Replace the placeholder text of the Card Panels with the card object's info
+                    {
+                        newCardName.text = card.cardName;
+                        newCardManaCost.text = card.manaCost.ToString();
+                    }
+                    else
+                    {
+                        Debug.LogError("Card Name or Card Cost TMP elements are null!");
+                    }
 
-                CardData panelCardData = newCardPanel.GetComponent<CardData>();
-                panelCardData.cardName = card.cardName;
-                panelCardData.colors = card.colors;
-                panelCardData.rarity = card.rarity;
-                panelCardData.manaCost = card.manaCost;
-                panelCardData.archetypes = card.archetypes;
-                panelCardData.isRemoval = card.isRemoval;
-                panelCardData.isCreature = card.isCreature;
-                panelCardData.isMulticolored = card.isMulticolored;
-                panelCardData.type_line = card.type_line;
-                panelCardData.image_Uris = card.image_Uris;
-            }
-        }   
-        else
-        {
-            Debug.LogError("Cards could not be loaded. :(");
-        }
+                    CardData panelCardData = newCardPanel.GetComponent<CardData>();
+                    panelCardData.cardName = card.cardName;
+                    panelCardData.colors = card.colors;
+                    panelCardData.rarity = card.rarity;
+                    panelCardData.manaCost = card.manaCost;
+                    panelCardData.archetypes = card.archetypes;
+                    panelCardData.isRemoval = card.isRemoval;
+                    panelCardData.isCreature = card.isCreature;
+                    panelCardData.isMulticolored = card.isMulticolored;
+                    panelCardData.type_line = card.type_line;
+                    panelCardData.image_Uris = card.image_Uris; 
     }
 
     public void LoadAndDisplayCards(string filterColor, List<string> ignoredCardsList)
-    /*
-        DisplayCardsInScrollview needs to run for each archetype header
-    */
     {
         //Kill the cards already there, kill them dead
         foreach(Transform child in contentPanel)
@@ -183,8 +198,7 @@ public class DeckCreatorUI : MonoBehaviour
         }
         List<Card> cards = saveHandler.LoadAllCards().cards;
 
-        DisplayArchetypeHeaders();
-        DisplayCardsInScrollview(filterColor, cards, ignoredCardsList);
+        DisplayArchetypesAndCards(cards, ignoredCardsList);
     }
 
 
@@ -281,8 +295,10 @@ public class DeckCreatorUI : MonoBehaviour
         noncreatureCardsCount--;
 
         Debug.Log("creaturesPanel.transform: " + creaturesPanel.transform);
-        //Set the text of the Card Count text box to the cardCount
+        //Update the text of the Card Count text box to the cardCount
         UpdateCardCountText(creaturesPanel.transform, noncreaturesPanel.transform, creatureCardsCount, noncreatureCardsCount);
+        //Update the card count display text to the total
+        UpdateCardCountDisplay(creatureCardsCount + noncreatureCardsCount);
     }
 
     private void UpdateCardCountText(Transform creaturesParentPanel, Transform noncreaturesParentPanel, int creatureCount, int noncreatureCount)
@@ -352,7 +368,12 @@ public class DeckCreatorUI : MonoBehaviour
         Transform archetype3 = archetypePanel3.transform.Find("Archetype Name");
         Transform archetype4 = archetypePanel4.transform.Find("Archetype Name");
 
-        //Set the text boxes to the correct archetypes
+        //Find the panel that holds removal
+        //The panels are all from prefabs so the text box is just called "Archetype Name" for all of them
+        Transform removalTransform = removalPanel.transform.Find("Archetype Name");
+        Transform signatureTransform = signaturePanel.transform.Find("Archetype Name");
+
+        //Set the text of four archetype headers
         archetype1.GetComponentInChildren<TextMeshProUGUI>().text = matchingArchetypes[0];
         archetype2.GetComponentInChildren<TextMeshProUGUI>().text = matchingArchetypes[1];
         archetype3.GetComponentInChildren<TextMeshProUGUI>().text = matchingArchetypes[2];
@@ -360,9 +381,40 @@ public class DeckCreatorUI : MonoBehaviour
         
         //Find the panels that hold the card names
         Transform archetypeCardList1 = archetypePanel1.transform.Find("Archetype Card List");
+        Debug.Log("Card list 1: " + archetypeCardList1.name + " has " + archetypeCardList1.childCount + " children.");
         Transform archetypeCardList2 = archetypePanel2.transform.Find("Archetype Card List");
         Transform archetypeCardList3 = archetypePanel3.transform.Find("Archetype Card List");
         Transform archetypeCardList4 = archetypePanel4.transform.Find("Archetype Card List");
+        Transform removalCardList = removalPanel.transform.Find("Archetype Card List");
+        Transform signatureCardList = signaturePanel.transform.Find("Archetype Card List");
+
+                //Clear existing cards from panels
+        if(archetypeCardList1.transform.childCount > 0)
+        {
+            ClearStatPanels(archetypeCardList1);           
+        }
+        if(archetypeCardList2.transform.childCount > 0)
+        {
+            ClearStatPanels(archetypeCardList2);
+        }
+        if(archetypeCardList3.transform.childCount > 0)
+        {
+            ClearStatPanels(archetypeCardList3);
+        }
+        if(archetypeCardList4.transform.childCount > 0)
+        {
+            ClearStatPanels(archetypeCardList4);
+        }
+        if(removalCardList.transform.childCount > 0)
+        {
+            ClearStatPanels(removalCardList);
+        }
+        if(signatureCardList.transform.childCount > 0)
+        {
+            ClearStatPanels(signatureCardList);
+        }
+
+
 
         //Create a list to store the CardData objects
         List<CardData> cardDatas = new List<CardData>();
@@ -382,81 +434,127 @@ public class DeckCreatorUI : MonoBehaviour
         //Iterate through the noncreatures panel
         for (int i = 1; i < noncreaturesPanel.transform.childCount; i++)
         {
-            Debug.Log("i = " +  i);
             Transform child = noncreaturesPanel.transform.GetChild(i); //Get the child at the current index
-            Debug.Log("Child's name is: " + child.name);
             CardData cardData = child.GetComponent<CardData>(); //Get that child's card data, steal it if you have to
             cardDatas.Add(cardData);
-            Debug.Log("hey you're here");
-            Debug.Log("this card's name is: " + cardData.cardName);
             if(cardData == null)
             {
                 Debug.LogError("CardData not found!");
             }
         }
 
-        //Check for and clear existing panels
-        if(archetypeCardList1.transform.childCount > 0)
-        {
-            ClearStatPanels(archetypeCardList1);
-        }
-        if(archetypeCardList2.transform.childCount > 0)
-        {
-            ClearStatPanels(archetypeCardList2);
-        }
-        if(archetypeCardList3.transform.childCount > 0)
-        {
-            ClearStatPanels(archetypeCardList3);
-        }
-        if(archetypeCardList4.transform.childCount > 0)
-        {
-            ClearStatPanels(archetypeCardList4);
-        }
+
 
         //Instantiate a new TextMeshProGUI prefab for each CardData in cardDatas
         for (int i = 0; i < cardDatas.Count; i++)
         {
             GameObject newPanel;
-            //archetype1, 2, 3, 4 are the text boxes containing the archetype names
-            //Instantiate cards by archetype, repeating if neccesary 
-            if(cardDatas[i].archetypes.Contains(archetype1.GetComponentInChildren<TextMeshProUGUI>().text))
+            //First check to make sure the card has any archetypes (some cards are pure removal)
+            if(cardDatas[i].archetypes.Count > 0)
             {
-                newPanel = Instantiate(statTextPrefab, archetypeCardList1.transform);
-                newPanel.GetComponent<TextMeshProUGUI>().text = cardDatas[i].name;
+                //archetype1, 2, 3, 4 are the text boxes containing the archetype names
+                //Instantiate cards by archetype, repeating if neccesary 
+                if(cardDatas[i].archetypes.Contains(archetype1.GetComponentInChildren<TextMeshProUGUI>().text))
+                {
+                    newPanel = Instantiate(statTextPrefab, archetypeCardList1.transform);
+                    newPanel.GetComponent<TextMeshProUGUI>().text = cardDatas[i].cardName;
+                }
+                if(cardDatas[i].archetypes.Contains(archetype2.GetComponentInChildren<TextMeshProUGUI>().text))
+                {
+                    newPanel = Instantiate(statTextPrefab, archetypeCardList2.transform);
+                    newPanel.GetComponent<TextMeshProUGUI>().text = cardDatas[i].cardName;
+                }
+                if(cardDatas[i].archetypes.Contains(archetype3.GetComponentInChildren<TextMeshProUGUI>().text))
+                {
+                    newPanel = Instantiate(statTextPrefab, archetypeCardList3.transform);
+                    newPanel.GetComponent<TextMeshProUGUI>().text = cardDatas[i].cardName;
+                }
+                if(cardDatas[i].archetypes.Contains(archetype4.GetComponentInChildren<TextMeshProUGUI>().text))
+                {
+                    newPanel = Instantiate(statTextPrefab, archetypeCardList4.transform);
+                    newPanel.GetComponent<TextMeshProUGUI>().text = cardDatas[i].cardName;
+                }
             }
-            if(cardDatas[i].archetypes.Contains(archetype2.GetComponentInChildren<TextMeshProUGUI>().text))
+
+            //Removal: check cardData isRemoval property
+            if(cardDatas[i].isRemoval)
             {
-                newPanel = Instantiate(statTextPrefab, archetypeCardList2.transform);
-                newPanel.GetComponent<TextMeshProUGUI>().text = cardDatas[i].name;
+                newPanel = Instantiate(statTextPrefab, removalCardList.transform);
+                newPanel.GetComponent<TextMeshProUGUI>().text = cardDatas[i].cardName;
             }
-            if(cardDatas[i].archetypes.Contains(archetype3.GetComponentInChildren<TextMeshProUGUI>().text))
+
+            //Signature Cards: check for rare or mythic rarity
+            if(cardDatas[i].rarity == CardRarity.Rare || cardDatas[i].rarity == CardRarity.Mythic)
             {
-                newPanel = Instantiate(statTextPrefab, archetypeCardList3.transform);
-                newPanel.GetComponent<TextMeshProUGUI>().text = cardDatas[i].name;
+                newPanel = Instantiate(statTextPrefab, signatureCardList.transform);
+                newPanel.GetComponent<TextMeshProUGUI>().text = cardDatas[i].cardName;
             }
-            if(cardDatas[i].archetypes.Contains(archetype4.GetComponentInChildren<TextMeshProUGUI>().text))
-            {
-                newPanel = Instantiate(statTextPrefab, archetypeCardList4.transform);
-                newPanel.GetComponent<TextMeshProUGUI>().text = cardDatas[i].name;
-            }
-            Debug.Log("There are " + cardDatas.Count + " cards.");
         }
 
         //Update bar colors depending on card count
         //Access the PanelColorHandler of the panel that needs to be changed
-        PanelColorHandler panelColorHandler = archetypePanel1.GetComponentInChildren<PanelColorHandler>();
+        PanelColorHandler panelColorHandler1 = archetypePanel1.GetComponentInChildren<PanelColorHandler>();
+        PanelColorHandler panelColorHandler2 = archetypePanel2.GetComponentInChildren<PanelColorHandler>();
+        PanelColorHandler panelColorHandler3 = archetypePanel3.GetComponentInChildren<PanelColorHandler>();
+        PanelColorHandler panelColorHandler4 = archetypePanel4.GetComponentInChildren<PanelColorHandler>();
+        PanelColorHandler panelColorHandlerRemoval = removalPanel.GetComponentInChildren<PanelColorHandler>();
+        PanelColorHandler panelColorHandlerSignature = signaturePanel.GetComponentInChildren<PanelColorHandler>();
 
-        /*
-            IMPORTANT:      NEED TO COMPLETE THIS FOR THE OTHER THREE PANELS TO PROCEED
-        */
-        switch(archetypeCardList1.childCount)
+        Debug.Log("Card list 1: " + archetypeCardList1.name + " has " + archetypeCardList1.childCount + " children.");
+        //Count the child objects of each archetypeCardList to determine the bar color
+        switch(archetypeCardList1.transform.childCount)
         {
-            case 0: panelColorHandler.UpdateBarColors("emptyList");
+            case 0: panelColorHandler1.UpdateBarColors("emptyList");
             break;
-            case 1: panelColorHandler.UpdateBarColors("oneItemInList");
+            case 1: panelColorHandler1.UpdateBarColors("oneItemInList");
             break;
-            default: panelColorHandler.UpdateBarColors("fullList"); //2 or higher
+            default: panelColorHandler1.UpdateBarColors("fullList"); //2 or higher
             break;            
+        }
+        switch(archetypeCardList2.childCount)
+        {
+            case 0: panelColorHandler2.UpdateBarColors("emptyList");
+            break;
+            case 1: panelColorHandler2.UpdateBarColors("oneItemInList");
+            break;
+            default: panelColorHandler2.UpdateBarColors("fullList"); //2 or higher
+            break;            
+        }
+        switch(archetypeCardList3.childCount)
+        {
+            case 0: panelColorHandler3.UpdateBarColors("emptyList");
+            break;
+            case 1: panelColorHandler3.UpdateBarColors("oneItemInList");
+            break;
+            default: panelColorHandler3.UpdateBarColors("fullList"); //2 or higher
+            break;            
+        }
+        switch(archetypeCardList4.childCount)
+        {
+            case 0: panelColorHandler4.UpdateBarColors("emptyList");
+            break;
+            case 1: panelColorHandler4.UpdateBarColors("oneItemInList");
+            break;
+            default: panelColorHandler4.UpdateBarColors("fullList"); //2 or higher
+            break;            
+        }
+        switch(removalCardList.childCount)
+        {
+            case 0: panelColorHandlerRemoval.UpdateBarColors("emptyList");
+            break;
+            case 1: panelColorHandlerRemoval.UpdateBarColors("oneItemInList");
+            break;
+            default: panelColorHandlerRemoval.UpdateBarColors("fullList");
+            break;
+        }
+        switch(signatureCardList.childCount)
+        {
+            case 0: panelColorHandlerSignature.UpdateBarColors("emptyList");
+            break;
+            case 1: panelColorHandlerSignature.UpdateBarColors("oneItemInList");
+            break;
+            default: panelColorHandlerSignature.UpdateBarColors("fullList");
+            break;
         }
     }
 
@@ -467,8 +565,14 @@ public class DeckCreatorUI : MonoBehaviour
             for (int i = parent.childCount - 1; i >= 0; i--)
             // Iterate through children and destroy them, starting from the last child to avoid index issues.
             {
-                Destroy(parent.GetChild(i).gameObject);
+                DestroyImmediate(parent.GetChild(i).gameObject);
             }
+            Debug.Log("Child count is now:: " + parent.childCount );
         }
+    }
+
+    private void UpdateCardCountDisplay(int cardCount)
+    {
+        cardCountDisplayText.text = cardCount.ToString() + "/12"; //ex. "3/12"
     }
 }

@@ -158,14 +158,12 @@ public class PanelSelectionHandler : MonoBehaviour
     }
 
     public void OnRemoveButtonClick()
-    /*
-        GOAL:
-        Use the Display method to refresh the list of cards
-        Remove the chosen card from the Display method's ignore list
-        Destroy the panel
-    */
     {
+        StartCoroutine(RemoveCardAndUpdateUI());
+    }
 
+    public IEnumerator RemoveCardAndUpdateUI()
+    {
         if (selectedPanel != null)
         {
             Destroy(selectedPanel);
@@ -179,19 +177,18 @@ public class PanelSelectionHandler : MonoBehaviour
             Debug.Log("Filter color: " + chosenColor);
             Debug.Log(deckCreatorUI.ignoreList);
             deckCreatorUI.LoadAndDisplayCards(chosenColor, deckCreatorUI.ignoreList);
-
-            foreach(string item in deckCreatorUI.ignoreList)
-            {
-                Debug.Log("item removed from ignore list: " + item);
-            }
+            //Update Creatures/Noncreatures headers
+            deckCreatorUI.UpdateCategoryCounts();
+            yield return null;
+            deckCreatorUI.UpdateArchetypePanels();
+            yield return null;
         }
         else
         {
             Debug.LogError("No card name!");
         }
 
-        //Update Creatures/Noncreatures headers
-        deckCreatorUI.UpdateCategoryCounts();
+
         removeButton.SetActive(false);
     }
 }

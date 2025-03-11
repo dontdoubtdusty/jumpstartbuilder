@@ -11,9 +11,10 @@ public class CardData : MonoBehaviour
     public CardRarity rarity;
     public int manaCost;
     public List<string> archetypes;
+    public bool isArchetyped;
     public bool isRemoval;
     public bool isCreature;
-    public bool isMulticolored = false;
+    public bool isMulticolored;
     public string type_line;
     public Image_Uris image_Uris;
 }

@@ -16,7 +16,8 @@ public class Card
     public List<string> archetypes;
     public bool isRemoval;
     public bool isCreature;
-    public bool isMulticolored = false;
+    public bool isArchetyped;
+    public bool isMulticolored;
     public string type_line;
     public Image_Uris image_Uris; //Class defined in ScryfallCardHandler to store nested image_uri strings
 }
