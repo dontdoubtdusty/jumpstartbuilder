@@ -10,10 +10,11 @@ using Unity.VisualScripting;
 public class DeckCreatorUI : MonoBehaviour
 {
     [Header("Important Stuff (Boring)")]
-    public SaveHandler saveHandler;
     public PanelSelectionHandler panelSelectionHandler;
     public CardData cardData; 
     public List<ColorMapping> colorMapping; //Our list of MTG colors
+    SaveHandler saveHandler = SaveHandler.instance;
+
     [Header("Card List")]
     public GameObject cardPanelPrefab;
     public GameObject archetypeHeaderPanelPrefab; //The panels showing card name and mana cost on the right side
@@ -22,6 +23,7 @@ public class DeckCreatorUI : MonoBehaviour
     public string currentFilterColor;
     public List<string> ignoreList;
     public Toggle multicolorToggle, colorlessToggle;
+
     [Header("Deck List")]
     public GameObject creaturesPanel;
     public GameObject noncreaturesPanel;
@@ -35,6 +37,9 @@ public class DeckCreatorUI : MonoBehaviour
     public ArchetypeList archetypeList;
     public GameObject statTextPrefab;
 
+    [Header("Pack Saving")]
+    public Button saveButton;
+    public TMP_Dropdown deckArchetypeInput;
 
     [System.Serializable]
     public struct ColorMapping
@@ -43,13 +48,16 @@ public class DeckCreatorUI : MonoBehaviour
         public Color colorValue;
     }
 
-
-
     public void Start()
     {
         //Load full list of cards to start with
         currentFilterColor = "INIT";
         ignoreList = new List<string>();
+        //THIS IS JUST A PLACEHOLDER FILE FOR TESTING PURPOSES
+        //REPLACE THIS WITH A USER INPUT
+        //ALSO TAKE A USER INPUT
+        //DON'T FORGET THAT
+        saveHandler.LoadGame("DFT");
     }
 
     public void OnColorButtonClick(GameObject button)
@@ -58,15 +66,16 @@ public class DeckCreatorUI : MonoBehaviour
         if (colorData != null)
         {   
             currentFilterColor = colorData.color;
-            Debug.Log("colorData.color test: " + colorData.color);
-            Debug.Log("currentFilterColor = " + currentFilterColor);
+            //Debug.Log("colorData.color test: " + colorData.color);
+            //Debug.Log("currentFilterColor = " + currentFilterColor);
             if(ignoreList != null)
             {
-             Debug.Log("Ignore list found! Containing: " + ignoreList.Count);
+             //Debug.Log("Ignore list found! Containing: " + ignoreList.Count);
             }
             LoadAndDisplayCards(currentFilterColor, ignoreList);
             UpdateLandPanels();
             UpdateArchetypePanels();
+            SetArchetypeOptions();
         }
         else
         {
@@ -76,8 +85,33 @@ public class DeckCreatorUI : MonoBehaviour
 
     public string GetStoredFilterColor()
     {
-        Debug.Log("currentFilterColor X7: " + currentFilterColor);
+        //Debug.Log("currentFilterColor X7: " + currentFilterColor);
         return currentFilterColor;
+    }
+
+    public void GetCardsInDeck()
+    {
+        //DONT FORGET TO MAKE THIS A LIST<STRING> METHOD WHEN DONE TESTING!!!!
+        //
+        //
+
+        List<string> cards = new List<string>();
+        string cardName;
+        //i set to 1 to skip "Creatures" and "Noncreatures" header panels
+        //The panel names are the same as the card names
+        for(int i = 1; i < creaturesPanel.transform.childCount; i++)
+        {
+            cardName = creaturesPanel.transform.GetChild(i).name;
+            cards.Add(cardName);
+        }
+        for(int i = 1; i < noncreaturesPanel.transform.childCount; i++)
+        {
+            cardName = noncreaturesPanel.transform.GetChild(i).name;
+            cards.Add(cardName);
+        }
+
+        Debug.Log("cards contains " + cards.Count + " cards");
+        //return cards;
     }
 
     public void DisplayArchetypesAndCards(List<Card> cards, List<string> ignoredCardsList)
@@ -150,43 +184,44 @@ public class DeckCreatorUI : MonoBehaviour
 
     public void DisplayCardInScrollview(Card card)
     {
-                    //Substantiate prefab Card Panel
-                    //contentPanel is the scrollview Content object
-                    GameObject newCardPanel = Instantiate(cardPanelPrefab, contentPanel);
+        //Substantiate prefab Card Panel
+        //contentPanel is the scrollview Content object
+        GameObject newCardPanel = Instantiate(cardPanelPrefab, contentPanel);
 
-                    //Add click listener
-                    newCardPanel.GetComponent<Button>().onClick.AddListener(() => panelSelectionHandler.SelectPanel(newCardPanel));
-                    newCardPanel.name = card.cardName;
+        //Add click listener
+        newCardPanel.GetComponent<Button>().onClick.AddListener(() => panelSelectionHandler.SelectPanel(newCardPanel));
+        newCardPanel.name = card.cardName;
 
-                    SetCardPanelColor(newCardPanel.GetComponent<UnityEngine.UI.Image>(), card.colors[0]);
+        SetCardPanelColor(newCardPanel.GetComponent<UnityEngine.UI.Image>(), card.colors[0]);
 
-                    //Find the name and mana cost TMP text boxes on the card panels
+        //Find the name and mana cost TMP text boxes on the card panels
 
-                    TextMeshProUGUI newCardName = newCardPanel.transform.Find("Card Name").GetComponent<TextMeshProUGUI>();
-                    TextMeshProUGUI newCardManaCost = newCardPanel.transform.Find("Card Cost").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI newCardName = newCardPanel.transform.Find("Card Name").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI newCardManaCost = newCardPanel.transform.Find("Card Cost").GetComponent<TextMeshProUGUI>();
 
-                    if(newCardName != null && newCardManaCost != null)
-                    //Replace the placeholder text of the Card Panels with the card object's info
-                    {
-                        newCardName.text = card.cardName;
-                        newCardManaCost.text = card.manaCost.ToString();
-                    }
-                    else
-                    {
-                        Debug.LogError("Card Name or Card Cost TMP elements are null!");
-                    }
+        if(newCardName != null && newCardManaCost != null)
+        //Replace the placeholder text of the Card Panels with the card object's info
+        {
+            newCardName.text = card.cardName;
+            newCardManaCost.text = card.manaCost.ToString();
+        }
+        else
+        {
+            Debug.LogError("Card Name or Card Cost TMP elements are null!");
+        }
 
-                    CardData panelCardData = newCardPanel.GetComponent<CardData>();
-                    panelCardData.cardName = card.cardName;
-                    panelCardData.colors = card.colors;
-                    panelCardData.rarity = card.rarity;
-                    panelCardData.manaCost = card.manaCost;
-                    panelCardData.archetypes = card.archetypes;
-                    panelCardData.isRemoval = card.isRemoval;
-                    panelCardData.isCreature = card.isCreature;
-                    panelCardData.isMulticolored = card.isMulticolored;
-                    panelCardData.type_line = card.type_line;
-                    panelCardData.image_Uris = card.image_Uris; 
+        CardData panelCardData = newCardPanel.GetComponent<CardData>();
+        panelCardData.cardName = card.cardName;
+        panelCardData.colors = card.colors;
+        panelCardData.rarity = card.rarity;
+        panelCardData.manaCost = card.manaCost;
+        panelCardData.oracle_text = card.oracle_text;
+        panelCardData.archetypes = card.archetypes;
+        panelCardData.isRemoval = card.isRemoval;
+        panelCardData.isCreature = card.isCreature;
+        panelCardData.isMulticolored = card.isMulticolored;
+        panelCardData.type_line = card.type_line;
+        panelCardData.image_Uris = card.image_Uris; 
     }
 
     public void LoadAndDisplayCards(string filterColor, List<string> ignoredCardsList)
@@ -196,7 +231,9 @@ public class DeckCreatorUI : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        List<Card> cards = saveHandler.LoadAllCards().cards;
+        //USING A PLACEHOLDER FILE FOR TESTING PURPOSES
+        //DON'T FORGET TO REPLACE
+        List<Card> cards = saveHandler.savedGame.savedCards.cards;
 
         DisplayArchetypesAndCards(cards, ignoredCardsList);
     }
@@ -216,8 +253,7 @@ public class DeckCreatorUI : MonoBehaviour
         }
     }
 
-    /* 
-    Currently multicolored cards are not imported so this method is unused
+    /* Currently multicolored cards are not imported so this method is unused
     
     public void MulticolorToggle()
     {
@@ -245,15 +281,15 @@ public class DeckCreatorUI : MonoBehaviour
 
         LoadAndDisplayCards(currentFilterColor, ignoreList);
         return;
-    } 
-    */
+    } */
 
     public void ColorlessToggle()
     {
+        List<Card> cards = saveHandler.savedGame.savedCards.cards;
         bool toggleOn = colorlessToggle.GetComponent<Toggle>().isOn;
         if (!toggleOn) //If off, remove all multicolored cards from the list
         {
-            foreach(Card card in saveHandler.LoadAllCards().cards)
+            foreach(Card card in cards)
             {
                 if (card.colors.Contains("C"))
                 {
@@ -264,7 +300,7 @@ public class DeckCreatorUI : MonoBehaviour
             return;
         }
         
-        foreach(Card card in saveHandler.LoadAllCards().cards)
+        foreach(Card card in cards)
         {
             if (card.colors.Contains("C"))
             {
@@ -320,6 +356,58 @@ public class DeckCreatorUI : MonoBehaviour
         noncreatureCountText.text = noncreatureCount.ToString();
     }
 
+    public void SaveCurrentDeck()
+    {
+        //Create an initial list to hold all the collected CardData components
+        List<CardData> currentDeckList = new List<CardData>();
+        //Create a ListOfDecks object that will hold the deck name and list of DeckEntry objects
+        SaveHandler.ListOfDecks listOfDecks = new SaveHandler.ListOfDecks();
+
+        //Iterate through creature/noncreature cards and add them to the list
+        for(int i = 1; i < creaturesPanel.transform.childCount; i++) //+1 to skip the header panels
+        {
+            currentDeckList.Add(creaturesPanel.transform.GetChild(i).GetComponent<CardData>());
+        }
+        for(int i = 1; i < noncreaturesPanel.transform.childCount; i++) //+1 to skip the header panels
+        {
+            currentDeckList.Add(noncreaturesPanel.transform.GetChild(i).GetComponent<CardData>());
+        }
+
+        Debug.Log("deckList contains " + currentDeckList.Count + " CardData objects.");
+        //Insert name creating logic here
+        string newDeckName = GetSelectedArchetype();
+        //Get saved deck archetype
+        string newDeckArchetype = GetSelectedArchetype();
+
+        //Create a DeckEntry object that will hold each deck's name and contents
+        SaveHandler.ListOfDecks.DeckEntry newDeckEntry = new SaveHandler.ListOfDecks.DeckEntry(newDeckName, newDeckArchetype);
+
+        //Add each card in the list to deckContents
+        foreach(CardData card in currentDeckList)
+        {
+            //The CardData class is MonoBehavior so it is not serializable
+            //Use FromCardData to convert each CardData into a serializable Card object
+            Card newCard = Card.FromCardData(card);
+            if(newDeckEntry.deckContents == null)
+            {
+                Debug.LogError("No deck contents!");
+            }
+            //Add each card to the deckContents
+            newDeckEntry.deckContents.Add(newCard);
+        }
+
+        Debug.Log("This deck's name is " + newDeckEntry.deckName + " and it contains " + newDeckEntry.deckContents.Count + " cards.");
+
+        saveHandler.allDecks.Add(newDeckEntry);
+        //
+        //
+        // THIS NEEDS TO BE REPLACED WITH A USER SAVE INPUT
+        //
+        //
+        //Add saved deck to save
+        saveHandler.UpdateWrapperAndSaveGame("DFT");
+    }
+
     private void UpdateLandPanels()
     //Auto-fill the two land slots for each deck based on filter color
     {
@@ -347,20 +435,27 @@ public class DeckCreatorUI : MonoBehaviour
                 break;
         }
     }
+    
 
-    public void UpdateArchetypePanels()
+    public List<string> GetMatchingArchetypes(string colorChoice)
     {
         //Create a list to store the correct archetypes
         List<string> matchingArchetypes = new List<string>();
         //Extract the correct four archetypes
         foreach(ArchetypeList.ArchetypeColorPair archetypeColorPair in archetypeList.archetypeColorPairs)
         {
-            if(archetypeColorPair.color1 == currentFilterColor || archetypeColorPair.color2 == currentFilterColor)
+            if(archetypeColorPair.color1 == colorChoice || archetypeColorPair.color2 == colorChoice)
             {
                 matchingArchetypes.Add(archetypeColorPair.archetypeName);
                 Debug.Log("Archetype name: " + archetypeColorPair.archetypeName);
             }
         }
+        
+        return matchingArchetypes;
+    }
+    public void UpdateArchetypePanels()
+    {
+        List<string> matchingArchetypes = GetMatchingArchetypes(currentFilterColor);
 
         //Find the panels that hold the archetype names
         Transform archetype1 = archetypePanel1.transform.Find("Archetype Name");
@@ -381,7 +476,7 @@ public class DeckCreatorUI : MonoBehaviour
         
         //Find the panels that hold the card names
         Transform archetypeCardList1 = archetypePanel1.transform.Find("Archetype Card List");
-        Debug.Log("Card list 1: " + archetypeCardList1.name + " has " + archetypeCardList1.childCount + " children.");
+        //Debug.Log("Card list 1: " + archetypeCardList1.name + " has " + archetypeCardList1.childCount + " children.");
         Transform archetypeCardList2 = archetypePanel2.transform.Find("Archetype Card List");
         Transform archetypeCardList3 = archetypePanel3.transform.Find("Archetype Card List");
         Transform archetypeCardList4 = archetypePanel4.transform.Find("Archetype Card List");
@@ -500,7 +595,7 @@ public class DeckCreatorUI : MonoBehaviour
         PanelColorHandler panelColorHandlerRemoval = removalPanel.GetComponentInChildren<PanelColorHandler>();
         PanelColorHandler panelColorHandlerSignature = signaturePanel.GetComponentInChildren<PanelColorHandler>();
 
-        Debug.Log("Card list 1: " + archetypeCardList1.name + " has " + archetypeCardList1.childCount + " children.");
+        //Debug.Log("Card list 1: " + archetypeCardList1.name + " has " + archetypeCardList1.childCount + " children.");
         //Count the child objects of each archetypeCardList to determine the bar color
         switch(archetypeCardList1.transform.childCount)
         {
@@ -558,6 +653,18 @@ public class DeckCreatorUI : MonoBehaviour
         }
     }
 
+    private void SetArchetypeOptions()
+    {
+        deckArchetypeInput.ClearOptions();
+        deckArchetypeInput.AddOptions(GetMatchingArchetypes(currentFilterColor));
+    }
+
+    private string GetSelectedArchetype()
+    {
+       string chosenArchetype = deckArchetypeInput.captionText.text;
+       return chosenArchetype;
+    }
+
     private void ClearStatPanels(Transform parent)
     {
         if(parent.childCount > 0)
@@ -567,7 +674,7 @@ public class DeckCreatorUI : MonoBehaviour
             {
                 DestroyImmediate(parent.GetChild(i).gameObject);
             }
-            Debug.Log("Child count is now:: " + parent.childCount );
+            Debug.Log("Child count is now: " + parent.childCount );
         }
     }
 

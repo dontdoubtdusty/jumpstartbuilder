@@ -11,7 +11,7 @@ public class PanelSelectionHandler : MonoBehaviour
     public Transform deckListCreaturePanel, deckListNoncreaturePanel;
     public List<GameObject> panels = new List<GameObject>();
     private GameObject selectedPanel;
-    public SaveHandler saveHandler;
+    SaveHandler saveHandler = SaveHandler.instance;
     public DeckCreatorUI deckCreatorUI;
     private string chosenColor;
     private string cardName;
@@ -41,7 +41,6 @@ public class PanelSelectionHandler : MonoBehaviour
 
     public void OnAddButtonClicked()
     {
-        
         //List<string> ignoredCards = deckCreatorUI.ignoreList;
         Debug.Log(deckCreatorUI.ignoreList.Count + " ignored cards in list.");
         chosenColor = deckCreatorUI.GetStoredFilterColor();

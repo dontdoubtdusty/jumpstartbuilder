@@ -27,7 +27,7 @@ using UnityEngine;
         Add scoring/yes no maybe system to archetype choices
         */
 
-        public SaveHandler saveHandler;
+        SaveHandler saveHandler = SaveHandler.instance;
         public CardCreator cardCreator;
         public List<Card> loadedCards;
         public GameObject cardDisplayPanel, archetypePanel;
@@ -47,7 +47,12 @@ using UnityEngine;
 
         void Start()
         {
-            loadedCardsLength = saveHandler.LoadAllCards().cards.Count;
+            ///TESTING ENTRY
+            /////DON'T FORGET TO COMPLETE AND REPLACE WITH A VARIABLE
+            ///////DON'T DO IT
+            saveHandler.LoadGame("DFT");
+            //loadedCardsLength = saveHandler.LoadAllCards().cards.Count; <---- DELETE WHEN SAVE SYSTEM IS UP
+            loadedCardsLength = saveHandler.savedGame.savedCards.cards.Count;
             filePath = Path.Combine(Application.dataPath, "CardData.json");
             lastWriteTime = File.GetLastWriteTime(filePath);
             removalText.gameObject.SetActive(false);
@@ -60,9 +65,11 @@ using UnityEngine;
         {
             if(File.GetLastWriteTime(filePath) != lastWriteTime)
             {
+                string testName = "DFT"; //FOR SAVE SYSTEM TESTING, NEEDS TO BE COMPLETED
                 lastWriteTime = File.GetLastWriteTime(filePath);
                 Debug.Log("File changed, updating.");
-                saveHandler.LoadAllCards();
+                //saveHandler.LoadAllCards();
+                saveHandler.LoadGame(testName);
                 DisplayNextCard();
                 UpdateArchetypeCounter();
             }
@@ -70,7 +77,7 @@ using UnityEngine;
 
         public void DisplayNextCard()
         {
-            SaveHandler.ListOfCards cards = saveHandler.LoadAllCards();
+            SaveHandler.ListOfCards cards = saveHandler.savedGame.savedCards;
 
             // Check if the card data was loaded successfully.
             if (cards == null || cards.cards == null)
@@ -116,9 +123,11 @@ using UnityEngine;
             Card selectedCard = untaggedCards[0];
             selectedCard.archetypes = userArchetypes;
             selectedCard.isArchetyped = true;
-            Debug.Log(selectedCard.cardName + " archetyped: " + selectedCard.isArchetyped);
+            
             saveHandler.UpdateCard(selectedCard); 
-            loadedCards = saveHandler.LoadAllCards().cards;
+            Debug.Log(selectedCard.cardName + " archetyped: " + selectedCard.isArchetyped);
+            //loadedCards = saveHandler.LoadAllCards().cards;
+            loadedCards = saveHandler.savedGame.savedCards.cards;
             DisplayNextCard();
             ResetToggles();
             //Debug.Log(selectedCard + " now has archetype(s): " + selectedCard.archetypes[0] + " and " + selectedCard.archetypes[1]);
@@ -239,7 +248,7 @@ using UnityEngine;
 
         public void UpdateArchetypeCounter()
         {
-            SaveHandler.ListOfCards cards = saveHandler.LoadAllCards();
+            SaveHandler.ListOfCards cards = saveHandler.savedGame.savedCards;
 
             // Check for null values.
             if (cards == null || cards.cards == null)

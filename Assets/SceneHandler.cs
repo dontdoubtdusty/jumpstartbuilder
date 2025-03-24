@@ -23,8 +23,9 @@ public class SceneHandler : MonoBehaviour
     {
         SceneManager.LoadScene("Main Menu Screen");
     }
-    public void LoadSceneByName(string sceneName)
+    
+    public void LoadDeckCollectionScreen()
     {
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene("Deck Collection Screen");
     }
 }

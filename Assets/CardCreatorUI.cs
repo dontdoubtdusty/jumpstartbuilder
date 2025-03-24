@@ -9,43 +9,49 @@ using UnityEditor.Animations;
 
 public class CardCreatorUI : MonoBehaviour
 {
-
     public CardCreator cardCreator; //Code that actually creates the card objects
-    public TMP_InputField searchInputField, nameInputField;
-    public Button createButton;
+    public TMP_InputField searchInputField, saveNameInputField;
+    public Button importAndSaveButton; //Button that imports and saves. What a twist!
   
     void Start()
     {
-        //Create the Create button (heh)
-
-        if(createButton != null)
+        if(importAndSaveButton != null)
         {
-            createButton.onClick.AddListener(ImportButtonClicked);
+            importAndSaveButton.onClick.AddListener(ImportAndSaveButtonClicked);
         }
         else
         {
-            Debug.Log("createButton is null1");
+            Debug.Log("createButton is null!");
         }
     }
 
-    void ImportButtonClicked()
+    void ImportAndSaveButtonClicked()
     {  
+         StartCoroutine(ImportAndSaveCoroutine());
+    }
 
-        //Card newCard = cardCreator.CreateCard(cardName, selectedColors[], selectedRarity, manaCost, chosenArchetypes, isRemoval, isCreature);
-        //cardCreator.WriteCardToFile(newCard);
-
+    IEnumerator ImportAndSaveCoroutine()
+    {
         cardCreator.SearchScryfall(searchInputField.text);
 
-        // Clear the card name input field
-        searchInputField.text = "";
-        nameInputField.text = "";
-              
-    }
-
-    void Update()
-    {
+        //Wait for the search coroutines to finish
+        while(cardCreator.isSearching)
+        {
+            yield return null;
+        }
+        Debug.Log("Save Name: " + saveNameInputField.text);
+        SaveHandler saveHandler = SaveHandler.instance;
+        if(saveHandler != null)
+        {
+            saveHandler.UpdateWrapperAndSaveGame(saveNameInputField.text);
+        }
+        else
+        {
+            Debug.LogError("SaveHandler instance not found!");
+        }
         
+
+        // Clear the card name input field
+        searchInputField.text = "";     
     }
-
-
 }

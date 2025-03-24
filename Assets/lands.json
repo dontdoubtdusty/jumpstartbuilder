@@ -1,0 +1,372 @@
+{
+        "lands": [
+            {
+                "cardName": "Black Dragon Gate",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped.\nAs this land enters, choose a color other than black.\n{T}: Add {B} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land — Gate",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/c/4/c4ceb589-c741-44ac-98c8-3d997953ee61.jpg?1674138128",
+                    "normal": "https://cards.scryfall.io/normal/front/c/4/c4ceb589-c741-44ac-98c8-3d997953ee61.jpg?1674138128",
+                    "large": "https://cards.scryfall.io/large/front/c/4/c4ceb589-c741-44ac-98c8-3d997953ee61.jpg?1674138128",
+                    "png": "https://cards.scryfall.io/png/front/c/4/c4ceb589-c741-44ac-98c8-3d997953ee61.png?1674138128",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/c/4/c4ceb589-c741-44ac-98c8-3d997953ee61.jpg?1674138128",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/c/4/c4ceb589-c741-44ac-98c8-3d997953ee61.jpg?1674138128"
+                }
+            },
+            {
+                "cardName": "Citadel Gate",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped.\nAs this land enters, choose a color other than white.\n{T}: Add {W} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land — Gate",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/c/0/c0e6f002-9a10-49a1-8604-2b8ff57732dd.jpg?1674138144",
+                    "normal": "https://cards.scryfall.io/normal/front/c/0/c0e6f002-9a10-49a1-8604-2b8ff57732dd.jpg?1674138144",
+                    "large": "https://cards.scryfall.io/large/front/c/0/c0e6f002-9a10-49a1-8604-2b8ff57732dd.jpg?1674138144",
+                    "png": "https://cards.scryfall.io/png/front/c/0/c0e6f002-9a10-49a1-8604-2b8ff57732dd.png?1674138144",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/c/0/c0e6f002-9a10-49a1-8604-2b8ff57732dd.jpg?1674138144",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/c/0/c0e6f002-9a10-49a1-8604-2b8ff57732dd.jpg?1674138144"
+                }
+            },
+            {
+                "cardName": "Cliffgate",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped.\nAs this land enters, choose a color other than red.\n{T}: Add {R} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land — Gate",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/5/5/557470dc-c594-4b26-81b9-356bedb0c215.jpg?1674138152",
+                    "normal": "https://cards.scryfall.io/normal/front/5/5/557470dc-c594-4b26-81b9-356bedb0c215.jpg?1674138152",
+                    "large": "https://cards.scryfall.io/large/front/5/5/557470dc-c594-4b26-81b9-356bedb0c215.jpg?1674138152",
+                    "png": "https://cards.scryfall.io/png/front/5/5/557470dc-c594-4b26-81b9-356bedb0c215.png?1674138152",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/5/5/557470dc-c594-4b26-81b9-356bedb0c215.jpg?1674138152",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/5/5/557470dc-c594-4b26-81b9-356bedb0c215.jpg?1674138152"
+                }
+            },
+            {
+                "cardName": "Manor Gate",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped.\nAs this land enters, choose a color other than green.\n{T}: Add {G} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land — Gate",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/7/9/793d4978-9e00-453d-8dc2-6d51ad6c26b7.jpg?1674138203",
+                    "normal": "https://cards.scryfall.io/normal/front/7/9/793d4978-9e00-453d-8dc2-6d51ad6c26b7.jpg?1674138203",
+                    "large": "https://cards.scryfall.io/large/front/7/9/793d4978-9e00-453d-8dc2-6d51ad6c26b7.jpg?1674138203",
+                    "png": "https://cards.scryfall.io/png/front/7/9/793d4978-9e00-453d-8dc2-6d51ad6c26b7.png?1674138203",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/7/9/793d4978-9e00-453d-8dc2-6d51ad6c26b7.jpg?1674138203",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/7/9/793d4978-9e00-453d-8dc2-6d51ad6c26b7.jpg?1674138203"
+                }
+            },
+            {
+                "cardName": "Sea Gate",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped.\nAs this land enters, choose a color other than blue.\n{T}: Add {U} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land — Gate",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/d/9/d97f31e1-bcaf-4316-a2de-49e2cf7566ec.jpg?1674138228",
+                    "normal": "https://cards.scryfall.io/normal/front/d/9/d97f31e1-bcaf-4316-a2de-49e2cf7566ec.jpg?1674138228",
+                    "large": "https://cards.scryfall.io/large/front/d/9/d97f31e1-bcaf-4316-a2de-49e2cf7566ec.jpg?1674138228",
+                    "png": "https://cards.scryfall.io/png/front/d/9/d97f31e1-bcaf-4316-a2de-49e2cf7566ec.png?1674138228",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/d/9/d97f31e1-bcaf-4316-a2de-49e2cf7566ec.jpg?1674138228",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/d/9/d97f31e1-bcaf-4316-a2de-49e2cf7566ec.jpg?1674138228"
+                }
+            },
+            {
+                "cardName": "Thriving Bluff",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped. As it enters, choose a color other than red.\n{T}: Add {R} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/c/1/c1932fa3-12bb-46aa-854f-87e0977e09be.jpg?1706240287",
+                    "normal": "https://cards.scryfall.io/normal/front/c/1/c1932fa3-12bb-46aa-854f-87e0977e09be.jpg?1706240287",
+                    "large": "https://cards.scryfall.io/large/front/c/1/c1932fa3-12bb-46aa-854f-87e0977e09be.jpg?1706240287",
+                    "png": "https://cards.scryfall.io/png/front/c/1/c1932fa3-12bb-46aa-854f-87e0977e09be.png?1706240287",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/c/1/c1932fa3-12bb-46aa-854f-87e0977e09be.jpg?1706240287",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/c/1/c1932fa3-12bb-46aa-854f-87e0977e09be.jpg?1706240287"
+                }
+            },
+            {
+                "cardName": "Thriving Grove",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped. As it enters, choose a color other than green.\n{T}: Add {G} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292",
+                    "normal": "https://cards.scryfall.io/normal/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292",
+                    "large": "https://cards.scryfall.io/large/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292",
+                    "png": "https://cards.scryfall.io/png/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.png?1706240292",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292"
+                }
+            },
+            {
+                "cardName": "Thriving Heath",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped. As it enters, choose a color other than white.\n{T}: Add {W} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/0/6/06329ca8-75b0-409d-bb80-6b9164f4e22a.jpg?1726285552",
+                    "normal": "https://cards.scryfall.io/normal/front/0/6/06329ca8-75b0-409d-bb80-6b9164f4e22a.jpg?1726285552",
+                    "large": "https://cards.scryfall.io/large/front/0/6/06329ca8-75b0-409d-bb80-6b9164f4e22a.jpg?1726285552",
+                    "png": "https://cards.scryfall.io/png/front/0/6/06329ca8-75b0-409d-bb80-6b9164f4e22a.png?1726285552",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/0/6/06329ca8-75b0-409d-bb80-6b9164f4e22a.jpg?1726285552",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/0/6/06329ca8-75b0-409d-bb80-6b9164f4e22a.jpg?1726285552"
+                }
+            },
+            {
+                "cardName": "Thriving Isle",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped. As it enters, choose a color other than blue.\n{T}: Add {U} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/4/a/4a67f455-f193-4999-9286-bbccee546fa3.jpg?1726285556",
+                    "normal": "https://cards.scryfall.io/normal/front/4/a/4a67f455-f193-4999-9286-bbccee546fa3.jpg?1726285556",
+                    "large": "https://cards.scryfall.io/large/front/4/a/4a67f455-f193-4999-9286-bbccee546fa3.jpg?1726285556",
+                    "png": "https://cards.scryfall.io/png/front/4/a/4a67f455-f193-4999-9286-bbccee546fa3.png?1726285556",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/4/a/4a67f455-f193-4999-9286-bbccee546fa3.jpg?1726285556",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/4/a/4a67f455-f193-4999-9286-bbccee546fa3.jpg?1726285556"
+                }
+            },
+            {
+                "cardName": "Thriving Moor",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped. As it enters, choose a color other than black.\n{T}: Add {B} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/7/0/7057e66a-8b5d-40d1-a685-124a8e0623c3.jpg?1726285560",
+                    "normal": "https://cards.scryfall.io/normal/front/7/0/7057e66a-8b5d-40d1-a685-124a8e0623c3.jpg?1726285560",
+                    "large": "https://cards.scryfall.io/large/front/7/0/7057e66a-8b5d-40d1-a685-124a8e0623c3.jpg?1726285560",
+                    "png": "https://cards.scryfall.io/png/front/7/0/7057e66a-8b5d-40d1-a685-124a8e0623c3.png?1726285560",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/7/0/7057e66a-8b5d-40d1-a685-124a8e0623c3.jpg?1726285560",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/7/0/7057e66a-8b5d-40d1-a685-124a8e0623c3.jpg?1726285560"
+                }
+            },
+            {
+                "cardName": "Thriving Bluff",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped. As it enters, choose a color other than red.\n{T}: Add {R} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/c/1/c1932fa3-12bb-46aa-854f-87e0977e09be.jpg?1706240287",
+                    "normal": "https://cards.scryfall.io/normal/front/c/1/c1932fa3-12bb-46aa-854f-87e0977e09be.jpg?1706240287",
+                    "large": "https://cards.scryfall.io/large/front/c/1/c1932fa3-12bb-46aa-854f-87e0977e09be.jpg?1706240287",
+                    "png": "https://cards.scryfall.io/png/front/c/1/c1932fa3-12bb-46aa-854f-87e0977e09be.png?1706240287",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/c/1/c1932fa3-12bb-46aa-854f-87e0977e09be.jpg?1706240287",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/c/1/c1932fa3-12bb-46aa-854f-87e0977e09be.jpg?1706240287"
+                }
+            },
+            {
+                "cardName": "Thriving Grove",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped. As it enters, choose a color other than green.\n{T}: Add {G} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292",
+                    "normal": "https://cards.scryfall.io/normal/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292",
+                    "large": "https://cards.scryfall.io/large/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292",
+                    "png": "https://cards.scryfall.io/png/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.png?1706240292",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292"
+                }
+            },
+            {
+                "cardName": "Thriving Heath",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped. As it enters, choose a color other than white.\n{T}: Add {W} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/0/6/06329ca8-75b0-409d-bb80-6b9164f4e22a.jpg?1726285552",
+                    "normal": "https://cards.scryfall.io/normal/front/0/6/06329ca8-75b0-409d-bb80-6b9164f4e22a.jpg?1726285552",
+                    "large": "https://cards.scryfall.io/large/front/0/6/06329ca8-75b0-409d-bb80-6b9164f4e22a.jpg?1726285552",
+                    "png": "https://cards.scryfall.io/png/front/0/6/06329ca8-75b0-409d-bb80-6b9164f4e22a.png?1726285552",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/0/6/06329ca8-75b0-409d-bb80-6b9164f4e22a.jpg?1726285552",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/0/6/06329ca8-75b0-409d-bb80-6b9164f4e22a.jpg?1726285552"
+                }
+            },
+            {
+                "cardName": "Thriving Isle",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped. As it enters, choose a color other than blue.\n{T}: Add {U} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/4/a/4a67f455-f193-4999-9286-bbccee546fa3.jpg?1726285556",
+                    "normal": "https://cards.scryfall.io/normal/front/4/a/4a67f455-f193-4999-9286-bbccee546fa3.jpg?1726285556",
+                    "large": "https://cards.scryfall.io/large/front/4/a/4a67f455-f193-4999-9286-bbccee546fa3.jpg?1726285556",
+                    "png": "https://cards.scryfall.io/png/front/4/a/4a67f455-f193-4999-9286-bbccee546fa3.png?1726285556",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/4/a/4a67f455-f193-4999-9286-bbccee546fa3.jpg?1726285556",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/4/a/4a67f455-f193-4999-9286-bbccee546fa3.jpg?1726285556"
+                }
+            },
+            {
+                "cardName": "Thriving Moor",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped. As it enters, choose a color other than black.\n{T}: Add {B} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/7/0/7057e66a-8b5d-40d1-a685-124a8e0623c3.jpg?1726285560",
+                    "normal": "https://cards.scryfall.io/normal/front/7/0/7057e66a-8b5d-40d1-a685-124a8e0623c3.jpg?1726285560",
+                    "large": "https://cards.scryfall.io/large/front/7/0/7057e66a-8b5d-40d1-a685-124a8e0623c3.jpg?1726285560",
+                    "png": "https://cards.scryfall.io/png/front/7/0/7057e66a-8b5d-40d1-a685-124a8e0623c3.png?1726285560",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/7/0/7057e66a-8b5d-40d1-a685-124a8e0623c3.jpg?1726285560",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/7/0/7057e66a-8b5d-40d1-a685-124a8e0623c3.jpg?1726285560"
+                }
+            },
+            {
+                "cardName": "Thriving Grove",
+                "colors": [
+                    "C"
+                ],
+                "rarity": 0,
+                "manaCost": 0,
+                "oracle_text": "This land enters tapped. As it enters, choose a color other than green.\n{T}: Add {G} or one mana of the chosen color.",
+                "archetypes": [],
+                "isRemoval": false,
+                "isCreature": false,
+                "isArchetyped": false,
+                "isMulticolored": false,
+                "type_line": "Land",
+                "image_Uris": {
+                    "small": "https://cards.scryfall.io/small/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292",
+                    "normal": "https://cards.scryfall.io/normal/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292",
+                    "large": "https://cards.scryfall.io/large/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292",
+                    "png": "https://cards.scryfall.io/png/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.png?1706240292",
+                    "art_crop": "https://cards.scryfall.io/art_crop/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292",
+                    "border_crop": "https://cards.scryfall.io/border_crop/front/9/b/9b56c554-b731-4b16-a0a3-5eeb7f60e823.jpg?1706240292"
+                }
+            }
+        ]
+}

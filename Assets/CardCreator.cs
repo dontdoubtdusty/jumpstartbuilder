@@ -11,10 +11,11 @@ using System.Resources;
 
 public class CardCreator : MonoBehaviour
 {
-    public SaveHandler saveHandler;
+    public bool isSearching = false;
 
     public void SearchScryfall(string searchQuery)
     {   
+        isSearching = true;
         string url = $"https://api.scryfall.com/cards/search?q={UnityWebRequest.EscapeURL(searchQuery)}";
         StartCoroutine(GetCardData(url, searchQuery));
     }
@@ -30,6 +31,7 @@ public class CardCreator : MonoBehaviour
             {
                 string json = webRequest.downloadHandler.text;
                 ScryfallSearchResult searchResult = JsonConvert.DeserializeObject<ScryfallSearchResult>(json);
+                SaveHandler saveHandler = SaveHandler.instance;
 
                 if (searchResult != null && searchResult.data != null)
                 {
@@ -62,8 +64,8 @@ public class CardCreator : MonoBehaviour
             }
         }
 
-                    string url = $"https://api.scryfall.com/cards/search?q={UnityWebRequest.EscapeURL(searchQuery + " otag:removal")}";
-                    StartCoroutine(GetRemoval(url));
+                string url = $"https://api.scryfall.com/cards/search?q={UnityWebRequest.EscapeURL(searchQuery + " otag:removal")}";
+                StartCoroutine(GetRemoval(url));
     }
 
     IEnumerator GetRemoval(string searchUrl)
@@ -77,6 +79,7 @@ public class CardCreator : MonoBehaviour
             {
                 string json = webRequest.downloadHandler.text;
                 ScryfallSearchResult searchResult = JsonConvert.DeserializeObject<ScryfallSearchResult>(json);
+                SaveHandler saveHandler = SaveHandler.instance;
 
                 if (searchResult != null && searchResult.data != null)
                 {
@@ -90,7 +93,7 @@ public class CardCreator : MonoBehaviour
                                 if(card.cardName == newCard.cardName)
                                 {
                                     card.isRemoval = true;
-                                    Debug.Log(card.cardName + " added to removal!");
+                                    //Debug.Log(card.cardName + " added to removal!");
                                 }
                             }
                         }
@@ -106,6 +109,7 @@ public class CardCreator : MonoBehaviour
                     {
                         searchResult = null; //No more pages
                         searchUrl = null;
+                        isSearching = false;
                     }
                 }
             }
@@ -115,8 +119,6 @@ public class CardCreator : MonoBehaviour
                 searchUrl = null; //Close the loop
             }
         }
-
-                    saveHandler.WriteAllCardsToFile();
     }
 
     public Card CreateCardFromScryfall(ScryfallCard scryfallCard)
@@ -138,7 +140,7 @@ public class CardCreator : MonoBehaviour
 
             newCard.colors = new List<string>();
 
-            Debug.Log("Colors: " + string.Join(", ", scryfallCard.colors)); // Inspect the array
+            //Debug.Log("Colors: " + string.Join(", ", scryfallCard.colors)); // Inspect the array
             if (Array.IndexOf(scryfallCard.colors, "W") >= 0) newCard.colors.Add("W");
             if (Array.IndexOf(scryfallCard.colors, "U") >= 0) newCard.colors.Add("U");
             if (Array.IndexOf(scryfallCard.colors, "B") >= 0) newCard.colors.Add("B");

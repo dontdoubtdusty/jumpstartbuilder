@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Deck : MonoBehaviour
 {
-    public string cardName; // You might want a deck name
+    public string cardName;
+    public string archetype;
     public List<Card> Cards;
 
     public Deck(string name)

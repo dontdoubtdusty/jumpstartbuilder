@@ -1475,7 +1475,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1013928023}
-  - component: {fileID: 1013928027}
   - component: {fileID: 1013928022}
   - component: {fileID: 1013928026}
   - component: {fileID: 1013928024}
@@ -1499,7 +1498,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e718c20355360d4f8387b6c5fef89d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveHandler: {fileID: 1013928027}
   cardCreator: {fileID: 1013928026}
   loadedCards: []
   cardDisplayPanel: {fileID: 640913915}
@@ -1564,22 +1562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b8a413f1625d0144827dc8b45600e7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveHandler: {fileID: 1013928027}
---- !u!114 &1013928027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1013928020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c27a7a9a8b6d58b4cb6a8938328f6156, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardListSource: {fileID: 4900000, guid: 9c6810001a5dde94597d0a4435367e50, type: 3}
-  cardCreator: {fileID: 1013928026}
-  allCards: []
+  isSearching: 0
 --- !u!1 &1152472525
 GameObject:
   m_ObjectHideFlags: 0

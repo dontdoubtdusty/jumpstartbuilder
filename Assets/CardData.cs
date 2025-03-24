@@ -10,6 +10,7 @@ public class CardData : MonoBehaviour
     public List<string> colors;
     public CardRarity rarity;
     public int manaCost;
+    public string oracle_text;
     public List<string> archetypes;
     public bool isArchetyped;
     public bool isRemoval;

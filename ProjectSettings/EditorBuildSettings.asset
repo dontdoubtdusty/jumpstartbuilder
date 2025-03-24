@@ -9,9 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Scenes/Main Menu Screen.unity
+    guid: f68859b3e01f4784e9c35edd789c463d
+  - enabled: 1
     path: Assets/Scenes/Card Input Screen.unity
     guid: 93d6cd0f123f1854292e3072e62b76a1
   - enabled: 1
     path: Assets/Scenes/Deck Builder Screen.unity
     guid: 3704b33efdcf92843b042826c1fa6618
+  - enabled: 1
+    path: Assets/Scenes/Archetyper Screen.unity
+    guid: fb9e48e338188244a8dec344b3280a85
+  - enabled: 1
+    path: Assets/Scenes/Deck Collection Screen.unity
+    guid: 96f5092cae9d6a140b76b9ae12751d61
   m_configObjects: {}
